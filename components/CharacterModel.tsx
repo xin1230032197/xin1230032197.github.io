@@ -13,10 +13,10 @@ import {
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 
-const MODEL_URL = "/models/character.glb";
 const MODEL_HEIGHT = 3;
 
 type CharacterModelProps = {
+  modelUrl: string;
   reduceMotion: boolean;
   onReady: () => void;
 };
@@ -41,9 +41,13 @@ function fitCameraToModel(
   camera.updateProjectionMatrix();
 }
 
-export function CharacterModel({ reduceMotion, onReady }: CharacterModelProps) {
+export function CharacterModel({
+  modelUrl,
+  reduceMotion,
+  onReady,
+}: CharacterModelProps) {
   const floatGroup = useRef<Group>(null);
-  const gltf = useLoader(GLTFLoader, MODEL_URL);
+  const gltf = useLoader(GLTFLoader, modelUrl);
   const { camera, size: canvasSize } = useThree();
 
   const scene = useMemo(() => clone(gltf.scene) as Group, [gltf.scene]);
@@ -63,7 +67,7 @@ export function CharacterModel({ reduceMotion, onReady }: CharacterModelProps) {
         -center.z * scale,
       ] as [number, number, number],
       scale,
-      width: Math.max(dimensions.x * scale, 0.1),
+      width: Math.max(Math.max(dimensions.x, dimensions.z) * scale, 0.1),
     };
   }, [scene]);
 
@@ -95,8 +99,13 @@ export function CharacterModel({ reduceMotion, onReady }: CharacterModelProps) {
   useFrame((state, delta) => {
     mixer?.update(delta);
 
-    if (!mixer && !reduceMotion && floatGroup.current) {
-      floatGroup.current.position.y = Math.sin(state.clock.elapsedTime * 1.05) * 0.035;
+    if (!reduceMotion && floatGroup.current) {
+      floatGroup.current.rotation.y += delta * 0.18;
+
+      if (!mixer) {
+        floatGroup.current.position.y =
+          Math.sin(state.clock.elapsedTime * 1.05) * 0.035;
+      }
     }
   });
 
