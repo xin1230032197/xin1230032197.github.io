@@ -1,44 +1,32 @@
 "use client";
 
-import { ArrowDown, BookOpen } from "lucide-react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 import { CharacterStage } from "@/components/CharacterStage";
 
-export function Hero() {
-  const enterLibrary = () => {
-    document.getElementById("library")?.scrollIntoView({ behavior: "smooth" });
-  };
-
+export function Hero({ onEnter }: { onEnter: () => void }) {
   return (
-    <section className="relative min-h-[100svh] px-5 pb-10 pt-5 sm:px-8 lg:px-12">
-      <div className="mx-auto flex max-w-[1320px] items-center justify-between border-b border-[var(--rule)] pb-4 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--muted-ink)] sm:text-xs">
-        <div className="flex items-center gap-3">
-          <span className="grid size-8 place-items-center rounded-full border border-[var(--ink)] font-semibold text-[var(--ink)]">S</span>
-          <span>Personal archive</span>
-        </div>
-        <div className="hidden items-center gap-6 sm:flex">
-          <span>File 001</span>
-          <span className="flex items-center gap-2"><i className="size-1.5 rounded-full bg-[var(--mint-dark)]" /> Online</span>
-        </div>
-      </div>
-
-      <div className="hero-enter mx-auto grid min-h-[calc(100svh-74px)] max-w-[1320px] items-center gap-12 py-12 lg:grid-cols-[0.94fr_1.06fr] lg:gap-16 lg:py-8">
-        <div className="relative z-10 max-w-2xl">
-          <div className="mb-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-[var(--mint-dark)]">
-            <BookOpen aria-hidden="true" className="size-4" />
-            <span>Volume I · 2026</span>
+    <section className="hero">
+      <header className="topline">
+        <div className="brand"><span className="brand-seal">S</span><span>SHUYING <b>的个人空间</b></span></div>
+        <span className="edition">个人档案 · 第一卷</span>
+      </header>
+      <div className="hero-layout hero-enter">
+        <div className="hero-copy">
+          <p className="eyebrow"><BookOpen size={15} aria-hidden="true" /> 一个正在慢慢生长的数字书房</p>
+          <h1>SHUYING<span>写代码，也写下沿途的风景。</span></h1>
+          <div className="hero-intro">
+            <p>计算机科学</p>
+            <p>人工智能 / 系统 / 基础设施</p>
+            <blockquote>「在构建中学习，在记录中前行。」</blockquote>
           </div>
-          <h1 className="font-editorial text-[clamp(4.5rem,11vw,9.5rem)] leading-[0.76] tracking-[-0.075em]">SHUYING</h1>
-          <div className="mt-8 border-l-2 border-[var(--mint)] pl-5 sm:mt-10 sm:pl-7">
-            <p className="text-xl font-medium leading-relaxed tracking-[-0.02em] sm:text-2xl">Computer Science<br />AI / Systems / Infrastructure</p>
-            <p className="mt-5 max-w-md text-base leading-7 text-[var(--muted-ink)] sm:text-lg">“Building, learning, and documenting the journey.”</p>
-          </div>
-          <button type="button" onClick={enterLibrary} className="group mt-10 inline-flex min-h-12 items-center gap-4 border-b border-[var(--ink)] pb-2 font-mono text-sm font-semibold tracking-[0.08em] transition-colors hover:border-[var(--mint-dark)] hover:text-[var(--mint-dark)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--mint-dark)]">
-            ENTER LIBRARY
-            <ArrowDown aria-hidden="true" className="size-4 transition-transform group-hover:translate-y-1" />
+          <button id="enter-library" className="enter-button" onClick={onEnter}>
+            <span>进入书房</span><ArrowUpRight size={19} aria-hidden="true" />
           </button>
+          <p className="cover-note">翻开这一页，认识我和我正在做的事。</p>
         </div>
         <CharacterStage />
       </div>
+      <div className="cover-bottom"><span>序章 / 关于好奇心的一切</span><span>2026 — 持续更新中</span></div>
     </section>
   );
 }

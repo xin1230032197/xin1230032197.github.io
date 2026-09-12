@@ -128,3 +128,205 @@ body::before {
   html { scroll-behavior: auto; }
   .hero-enter, .stage-float, .page-enter { animation: none; }
 }
+
+
+/* Two full-screen scenes; only the book's reading pane may scroll on small screens. */
+html, body { height: 100%; overflow: hidden; }
+body { font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+button { cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--mint-dark); outline-offset: 5px; }
+.personal-space { position: relative; width: 100%; height: 100dvh; overflow: hidden; isolation: isolate; }
+.scene { position: absolute; inset: 0; display: flex; flex-direction: column; min-height: 0; }
+.hero, .library { width: min(100%, 1440px); margin: 0 auto; padding: 22px clamp(24px, 4vw, 64px) 0; min-height: 0; flex: 1; display: flex; flex-direction: column; }
+.topline, .library-topline { min-height: 50px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+.brand { display: flex; align-items: center; gap: 12px; font: 12px var(--font-mono); letter-spacing: .09em; }
+.brand b { font-family: var(--font-sans); font-weight: 400; color: var(--muted-ink); margin-left: 10px; }
+.brand-seal { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--ink); border-radius: 50%; font: 18px Georgia, serif; }
+.edition, .cover-bottom, .library-bottom { font-size: 12px; color: var(--muted-ink); letter-spacing: .1em; }
+.hero-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(12px, 3vw, 54px); flex: 1; min-height: 0; }
+.hero-copy { padding: 18px 0; }
+.eyebrow { display: flex; align-items: center; gap: 10px; color: var(--mint-dark); font-size: 12px; letter-spacing: .15em; }
+.hero h1 { margin-top: 28px; font: clamp(56px, 7.6vw, 108px)/1 Georgia, serif; letter-spacing: -.065em; }
+.hero h1 > span { display: block; margin-top: 22px; font: 400 clamp(16px, 1.55vw, 22px)/1.6 "Songti SC", SimSun, serif; letter-spacing: .13em; }
+.hero-intro { margin-top: 34px; border-left: 2px solid var(--mint); padding-left: 22px; }
+.hero-intro > p { font-size: clamp(16px, 1.45vw, 20px); line-height: 1.8; letter-spacing: .04em; }
+.hero-intro blockquote { margin-top: 16px; color: var(--muted-ink); font-size: 15px; line-height: 1.8; }
+.enter-button { display: inline-flex; align-items: center; gap: 34px; margin-top: 30px; padding: 14px 22px; border: 1px solid var(--ink); border-radius: 3px; background: var(--ink); color: var(--paper); font-size: 15px; letter-spacing: .18em; transition: background .2s, transform .2s; }
+.enter-button:hover { background: var(--mint-dark); transform: translateY(-2px); }
+.enter-button svg { transition: transform .2s; }
+.enter-button:hover svg { transform: translate(2px, -2px); }
+.cover-note { margin-top: 15px; font-size: 12px; color: var(--muted-ink); }
+.cover-bottom, .library-bottom { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; }
+.character-stage { max-width: min(100%, 61vh) !important; }
+.status-bar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 18px; border-top: 1px solid var(--rule); padding: 12px clamp(24px, 4vw, 64px); color: var(--muted-ink); font: 12px/1.5 var(--font-mono), "Microsoft YaHei", sans-serif; }
+.status-bar > span { display: inline-flex; align-items: center; gap: 8px; }
+.status-bar i { width: 5px; height: 5px; border-radius: 50%; background: var(--mint-dark); }
+.library-scene { animation: library-arrive .85s cubic-bezier(.22,1,.36,1) both; }
+.back-button { display: flex; align-items: center; gap: 9px; min-height: 32px; font-size: 13px; color: var(--muted-ink); transition: color .2s; }
+.back-button:hover { color: var(--mint-dark); }
+.library-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding: clamp(16px,3vh,32px) 0; }
+.library-heading h2 { margin-top: 9px; font: clamp(25px,2.8vw,40px)/1.35 "Songti SC", SimSun, Georgia, serif; letter-spacing: .07em; outline: none; }
+.library-volume { color: var(--muted-ink); font-size: 13px; line-height: 1.9; text-align: right; letter-spacing: .15em; }
+.library-volume span { font: 11px var(--font-mono); letter-spacing: .15em; }
+.book[data-slot="tabs"] { display: grid; grid-template-columns: 260px minmax(0,1fr); gap: 0; min-height: 0; flex: 1; width: 100%; border: 1px solid #cccac0; border-radius: 4px 10px 10px 4px; background: #f9f8f3; box-shadow: 0 4px 0 -1px #e6e3da, 0 7px 0 -2px #cccac0, 0 22px 55px #252d2510; }
+.book-index { display: flex; flex-direction: column; min-height: 0; padding: clamp(22px,3vh,36px) 28px; background: #f0eee7; border-radius: 4px 0 0 4px; border-right: 1px solid var(--rule); }
+.index-heading { display: flex; justify-content: space-between; color: var(--muted-ink); font-size: 12px; letter-spacing: .2em; margin-bottom: 22px; }
+.index-heading span:last-child { font: 11px var(--font-mono); }
+.chapter-list[data-slot="tabs-list"] { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; width: 100%; height: auto; gap: 0; padding: 0; border-radius: 0; background: transparent; }
+.chapter-tab[data-slot="tabs-trigger"] { display: flex; flex: none; align-items: center; justify-content: flex-start; height: auto; width: 100%; padding: clamp(12px,2.3vh,22px) 0; border: 0; border-top: 1px solid var(--rule); border-radius: 0; gap: 14px; text-align: left; color: var(--muted-ink); }
+.chapter-tab[data-slot="tabs-trigger"]:last-child { border-bottom: 1px solid var(--rule); }
+.chapter-tab[data-slot="tabs-trigger"]::after { display: none; }
+.chapter-tab[data-slot="tabs-trigger"][data-state="active"] { color: var(--ink); background: transparent; box-shadow: none; }
+.chapter-tab:hover .chapter-label { color: var(--mint-dark); transform: translateX(3px); }
+.chapter-number { font: 12px var(--font-mono); color: var(--mint-dark); }
+.chapter-label { display: block; font: 18px/1.5 "Songti SC", SimSun, serif; letter-spacing: .06em; transition: transform .2s, color .2s; }
+.chapter-label small { display: block; font: 11px/1.6 var(--font-mono); color: var(--muted-ink); letter-spacing: 0; margin-top: 3px; }
+.chapter-marker { width: 0; height: 1px; margin-left: auto; background: var(--mint-dark); transition: width .25s; }
+.chapter-marker.active { width: 22px; }
+.index-bottom { margin-top: auto; padding-top: 22px; }
+.index-quote { font: 18px/1.8 "Songti SC", SimSun, serif; color: #888b81; letter-spacing: .13em; }
+.index-bottom p { margin-top: 14px; font: 10px var(--font-mono); color: var(--muted-ink); letter-spacing: .1em; }
+.book-right { position: relative; min-height: 0; min-width: 0; }
+.book-spine { position: absolute; inset: 0 auto 0 -7px; width: 18px; background: linear-gradient(90deg,transparent,#20231f0c,transparent); pointer-events: none; }
+.book-ribbon { position: absolute; right: 34px; top: -1px; z-index: 2; width: 26px; height: 58px; background: var(--mint); clip-path: polygon(0 0,100% 0,100% 100%,50% 82%,0 100%); }
+.book-panel[data-slot="tabs-content"] { height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #c4cdc4 transparent; }
+.book-panel[hidden] { display: none; }
+.book-page { display: flex; flex-direction: column; min-height: 100%; padding: clamp(22px,3vh,38px) clamp(24px,4vw,58px) 22px; }
+.page-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-right: 26px; font: 11px/1.6 var(--font-mono); color: var(--muted-ink); }
+.page-header { padding-bottom: 19px; border-bottom: 1px solid var(--rule); }
+.page-header .eyebrow { margin-top: 24px; }
+.page-header h3 { font: 34px/1.45 "Songti SC", SimSun, serif; margin-top: 5px; letter-spacing: .12em; }
+.page-body { flex: 1; padding-top: 24px; }
+.page-body h4 { font: 21px/1.6 "Songti SC", SimSun, serif; letter-spacing: .04em; }
+.body-copy { font-size: 15px; line-height: 1.9; color: var(--muted-ink); }
+.profile-content { display: grid; grid-template-columns: 1.3fr .8fr; gap: 36px; }
+.profile-content .body-copy { margin-top: 16px; }
+.small-label { font-size: 12px; letter-spacing: .12em; color: var(--muted-ink); }
+.interests ul { margin-top: 12px; }
+.interests li { border-bottom: 1px solid var(--rule); padding: 7px 0; font-size: 14px; }
+.page-footer { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid var(--rule); padding-top: 14px; margin-top: 22px; font: 11px var(--font-mono); color: var(--muted-ink); }
+.project-row { display: grid; grid-template-columns: 26px 1fr; gap: 14px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.project-row:first-child { padding-top: 0; }
+.project-row .body-copy { font-size: 14px; }
+.project-row h4 { font-size: 20px; }
+.notes-intro { margin-bottom: 18px; }
+.notes-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 26px; }
+.note-row { display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--rule); padding: 20px 0; }
+.note-row h4 { font-size: 20px; }
+.note-file { font: 11px var(--font-mono); color: var(--muted-ink); margin-left: auto; }
+.journey-row { display: grid; grid-template-columns: 65px 1fr; gap: 22px; padding: 20px 0; }
+.journey-row > span { font: 14px/2 var(--font-mono); color: var(--mint-dark); }
+.journey-row > div { border-left: 1px solid var(--mint); padding-left: 22px; }
+.journey-row .small-label { margin-top: 10px; }
+.library-bottom { margin-top: 8px; }
+
+/* Eight slow compositor-only motes. No JS frame loop or large animated blur. */
+.ambient { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.ambient-halo { position: absolute; width: 55vw; height: 55vw; left: 49%; top: 0; border-radius: 50%; background: radial-gradient(circle,#a6d8c829,transparent 65%); animation: ambient-breathe 22s ease-in-out infinite alternate; }
+.ambient i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #6da78f; box-shadow: 0 0 7px #8fbea87a; opacity: .2; animation: mote-drift 20s ease-in-out infinite alternate; }
+.fragment-overlay { position: absolute; inset: 0; z-index: 20; pointer-events: none; overflow: hidden; }
+.scene-fragment { position: absolute; overflow: hidden; will-change: transform, opacity; }
+.fragment-copy { background: var(--paper); pointer-events: none; }
+.fragment-copy *, .fragment-copy *::before, .fragment-copy *::after { animation: none !important; transition: none !important; }
+[data-paused="true"] *, [data-paused="true"] *::before { animation-play-state: paused !important; }
+@keyframes library-arrive { from { opacity: .1; transform: scale(.975); } to { opacity: 1; transform: scale(1); } }
+@keyframes mote-drift { from { transform: translate(0,0); opacity: .1; } to { transform: translate(12px,-28px); opacity: .4; } }
+@keyframes ambient-breathe { from { opacity: .6; transform: translate(0,0); } to { opacity: 1; transform: translate(-20px,15px); } }
+
+@media (max-width: 1000px) {
+  .book[data-slot="tabs"] { grid-template-columns: 205px minmax(0,1fr); }
+  .book-index { padding-inline: 20px; }
+  .profile-content { grid-template-columns: 1fr; gap: 22px; }
+  .interests ul { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .interests li { font-size: 13px; }
+  .hero h1 { font-size: clamp(48px,8vw,78px); }
+  .hero-intro { padding-left: 15px; }
+}
+@media (max-width: 640px) {
+  .hero, .library { padding: 14px 20px 0; }
+  .topline, .library-topline { min-height: 34px; padding-bottom: 10px; }
+  .brand { font-size: 11px; gap: 8px; }
+  .brand b { margin-left: 4px; }
+  .brand-seal { width: 26px; height: 26px; font-size: 15px; }
+  .edition { font-size: 10px; letter-spacing: 0; }
+  .topline .edition { display: none; }
+  .hero-layout { grid-template-columns: 1fr; grid-template-rows: auto minmax(0,1fr); gap: 0; }
+  .hero-copy { padding: 22px 0 0; }
+  .hero .eyebrow { font-size: 11px; letter-spacing: .09em; }
+  .hero h1 { font-size: clamp(46px,13vw,68px); margin-top: 17px; }
+  .hero h1 > span { font-size: 16px; margin-top: 10px; letter-spacing: .06em; }
+  .hero-intro { margin-top: 18px; }
+  .hero-intro > p { font-size: 14px; line-height: 1.7; }
+  .hero-intro blockquote { font-size: 13px; margin-top: 8px; }
+  .enter-button { padding: 10px 18px; margin-top: 18px; font-size: 14px; }
+  .cover-note { display: none; }
+  .character-stage { height: 100%; width: auto !important; max-height: 33dvh; max-width: 100% !important; min-height: 0; }
+  .character-stage .stage-float .size-20 { width: 46px; height: 46px; }
+  .character-stage .stage-float .mt-5 { margin-top: 8px; font-size: 10px; }
+  .character-stage .stage-float .text-sm { font-size: 11px; line-height: 1.4; }
+  .character-stage > .font-mono { font-size: 9px; white-space: nowrap; }
+  .character-stage .stage-float .size-8 { width: 24px; height: 24px; }
+  .cover-bottom { padding-block: 10px; font-size: 10px; letter-spacing: 0; }
+  .cover-bottom > span:last-child { display: none; }
+  .status-bar { padding: 9px 20px; font-size: 10px; gap: 8px 12px; }
+  .status-stack { display: none !important; }
+  .library-heading { padding: 18px 0; }
+  .library-heading .eyebrow { font-size: 10px; letter-spacing: .08em; }
+  .library-heading h2 { font-size: 25px; letter-spacing: .03em; }
+  .library-volume { display: none; }
+  .book[data-slot="tabs"] { display: flex; flex-direction: column; }
+  .book-index { flex: none; padding: 0; border: 0; border-radius: 4px 4px 0 0; }
+  .index-heading, .index-bottom { display: none; }
+  .chapter-list[data-slot="tabs-list"] { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .chapter-tab[data-slot="tabs-trigger"] { display: block; text-align: center; padding: 12px 0; border: 0; border-bottom: 1px solid var(--rule); }
+  .chapter-tab[data-slot="tabs-trigger"][data-state="active"] { background: #e2ede4; border-bottom-color: var(--mint-dark); }
+  .chapter-label { font-size: 14px; letter-spacing: 0; }
+  .chapter-number { font-size: 10px; }
+  .chapter-label small, .chapter-marker { display: none; }
+  .book-right { flex: 1; }
+  .book-spine { display: none; }
+  .book-ribbon { right: 20px; width: 18px; height: 42px; }
+  .book-page { padding: 20px 20px 16px; }
+  .page-meta { font-size: 10px; padding-right: 25px; }
+  .page-meta > span:last-child { display: none; }
+  .page-header .eyebrow { margin-top: 20px; font-size: 11px; }
+  .page-header h3 { font-size: 28px; margin-top: 6px; }
+  .page-header { padding-bottom: 15px; }
+  .page-body { padding-top: 20px; }
+  .page-body h4 { font-size: 20px; }
+  .body-copy { font-size: 14px; }
+  .profile-content { gap: 18px; }
+  .profile-content .body-copy { margin-top: 10px; }
+  .page-footer { font-size: 10px; }
+  .library-bottom { font-size: 10px; padding: 12px 0; letter-spacing: 0; }
+  .notes-list { grid-template-columns: 1fr; gap: 0; }
+  .note-row { padding: 14px 0; }
+  .journey-row { grid-template-columns: 40px 1fr; gap: 12px; }
+  .journey-row > div { padding-left: 14px; }
+}
+@media (max-height: 680px) and (min-width: 641px) {
+  .hero-intro { margin-top: 22px; }
+  .hero h1 > span { margin-top: 12px; }
+  .hero h1 { margin-top: 16px; }
+  .cover-note { display: none; }
+  .library-heading { padding: 12px 0; }
+  .library-heading h2 { font-size: 28px; }
+  .index-quote { display: none; }
+  .book-index { padding-top: 18px; }
+  .index-heading { margin-bottom: 12px; }
+  .page-meta { display: none; }
+  .page-header .eyebrow { margin-top: 0; }
+}
+@media (max-height: 700px) and (max-width: 640px) {
+  .hero-copy { padding-top: 12px; }
+  .hero .eyebrow { display: none; }
+  .hero h1 { font-size: 46px; margin-top: 0; }
+  .hero-intro { margin-top: 12px; }
+  .hero-intro blockquote { margin-top: 4px; }
+  .enter-button { margin-top: 12px; }
+  .character-stage { max-height: 28dvh; }
+  .character-stage .stage-float .text-sm { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
