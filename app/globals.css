@@ -151,11 +151,6 @@ button:focus-visible { outline: 2px solid var(--mint-dark); outline-offset: 5px;
 .enter-button:hover { background: var(--mint-dark); transform: translateY(-2px); }
 .enter-button svg { transition: transform .2s; }
 .enter-button:hover svg { transform: translate(2px, -2px); }
-.character-stage { max-width: min(100%, 61vh) !important; }
-.character-model-frame { will-change: translate; }
-.character-canvas { position: absolute !important; inset: 0; z-index: 1; opacity: 0; pointer-events: none !important; transition: opacity .35s ease; }
-.character-canvas.is-ready { opacity: 1; }
-.stage-placeholder { position: relative; z-index: 2; transition: opacity .2s ease; }
 .library-scene { animation: library-arrive .85s cubic-bezier(.22,1,.36,1) both; }
 .back-button { display: flex; align-items: center; gap: 9px; min-height: 32px; font-size: 13px; color: var(--muted-ink); transition: color .2s; }
 .back-button:hover { color: var(--mint-dark); }

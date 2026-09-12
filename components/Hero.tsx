@@ -1,7 +1,6 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { CharacterStage } from "@/components/CharacterStage";
 import { demoContent } from "@/data/demoContent";
 
 export function Hero({ onEnter }: { onEnter: () => void }) {
@@ -19,7 +18,6 @@ export function Hero({ onEnter }: { onEnter: () => void }) {
             <span>{demoContent.hero.button}</span><ArrowUpRight size={19} aria-hidden="true" />
           </button>
         </div>
-        <CharacterStage />
       </div>
     </section>
   );
