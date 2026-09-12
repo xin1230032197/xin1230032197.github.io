@@ -54,16 +54,15 @@ export function CharacterModel({ reduceMotion, onReady }: CharacterModelProps) {
     const center = bounds.getCenter(new Vector3());
     const scale = dimensions.y > 0 ? MODEL_HEIGHT / dimensions.y : 1;
 
-    scene.scale.setScalar(scale);
-    scene.position.set(
-      -center.x * scale,
-      -bounds.min.y * scale - MODEL_HEIGHT / 2,
-      -center.z * scale,
-    );
-
     return {
       depth: Math.max(dimensions.z * scale, 0.1),
       height: Math.max(dimensions.y * scale, MODEL_HEIGHT),
+      position: [
+        -center.x * scale,
+        -bounds.min.y * scale - MODEL_HEIGHT / 2,
+        -center.z * scale,
+      ] as [number, number, number],
+      scale,
       width: Math.max(dimensions.x * scale, 0.1),
     };
   }, [scene]);
@@ -103,7 +102,9 @@ export function CharacterModel({ reduceMotion, onReady }: CharacterModelProps) {
 
   return (
     <group ref={floatGroup}>
-      <primitive object={scene} dispose={null} />
+      <group position={modelMetrics.position} scale={modelMetrics.scale}>
+        <primitive object={scene} dispose={null} />
+      </group>
     </group>
   );
 }
