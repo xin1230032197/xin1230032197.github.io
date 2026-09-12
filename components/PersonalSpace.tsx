@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Hero } from "@/components/Hero";
 import { Library } from "@/components/Library";
-import { StatusBar } from "@/components/StatusBar";
 import { dissolveCover } from "@/components/SceneTransition";
 
 export function PersonalSpace() {
@@ -30,7 +29,7 @@ export function PersonalSpace() {
   useEffect(() => {
     if (!busy && didNavigate.current) {
       shell.current?.querySelector<HTMLElement>(
-        scene === "library" ? "#library-title" : "#enter-library",
+        scene === "library" ? "#back-to-cover" : "#enter-library",
       )?.focus({ preventScroll: true });
     }
   }, [scene, busy]);
@@ -75,7 +74,6 @@ export function PersonalSpace() {
       {scene === "cover" ? (
         <div ref={cover} className="scene cover-scene">
           <Hero onEnter={enter} />
-          <StatusBar />
         </div>
       ) : (
         <div className="scene library-scene" inert={busy}>
@@ -84,7 +82,6 @@ export function PersonalSpace() {
             didNavigate.current = true;
             setScene("cover");
           }} />
-          <StatusBar />
         </div>
       )}
       <div ref={overlay} className="fragment-overlay" aria-hidden="true" inert />
