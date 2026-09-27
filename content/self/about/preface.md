@@ -2,10 +2,11 @@
 title: 这座花园的前言
 description: 记录理解的过程，也给尚未完成的想法留出空间。
 date: 2026-09-01
-updated: 2026-09-01
+updated: 2026-09-27
 tags:
   - Personal
   - Codex
+aliases: []
 order: 50
 ---
 
@@ -21,6 +22,7 @@ order: 50
 
 从左边选择一个书架，再从右边走进分类。每篇文章都保留自己的位置，也通过链接与其他笔记相连。
 
+itlooks like good？
 > 让知识留下路径，让时间留下页码。
 
 ## 关于这些页面
