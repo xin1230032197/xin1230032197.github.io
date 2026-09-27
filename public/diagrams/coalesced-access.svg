@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-labelledby="title desc">
+<title id="title">连续访问与跨步访问</title><desc id="desc">四个线程访问相邻元素，以及间隔三个元素的地址示意。</desc>
+<rect width="800" height="300" rx="8" fill="#15231f"/>
+<g font-family="monospace" font-size="18" fill="#e0e6d5"><text x="30" y="42">CONTIGUOUS / stride = 1</text><text x="30" y="180">STRIDED / stride = 4</text></g>
+<g fill="#92c4a7" stroke="#bfd4bb" stroke-width="1"><rect x="40" y="70" width="44" height="54"/><rect x="86" y="70" width="44" height="54"/><rect x="132" y="70" width="44" height="54"/><rect x="178" y="70" width="44" height="54"/>
+<rect x="40" y="208" width="44" height="54"/><rect x="224" y="208" width="44" height="54"/><rect x="408" y="208" width="44" height="54"/><rect x="592" y="208" width="44" height="54"/></g>
+<g fill="#101b17" font-family="monospace" font-size="16" text-anchor="middle"><text x="62" y="102">T0</text><text x="108" y="102">T1</text><text x="154" y="102">T2</text><text x="200" y="102">T3</text><text x="62" y="240">T0</text><text x="246" y="240">T1</text><text x="430" y="240">T2</text><text x="614" y="240">T3</text></g>
+<g stroke="#728479" fill="none"><path d="M230 97H744M646 235H744"/><path d="m734 91 10 6-10 6m0 126 10 6-10 6"/></g>
+<g fill="#abb9ad" font-family="monospace" font-size="14"><text x="560" y="80">increasing address</text><text x="30" y="287">Illustration only; not a hardware transaction boundary.</text></g></svg>

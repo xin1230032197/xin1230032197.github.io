@@ -1,0 +1,227 @@
+[
+  {
+    "id": "self",
+    "title": "我自己",
+    "slug": "self",
+    "label": "SELF",
+    "description": "关于我，以及那些慢慢发生的变化。",
+    "children": [
+      {
+        "id": "about",
+        "title": "关于我",
+        "slug": "about",
+        "description": "这座私人图书馆的前言。",
+        "order": 10
+      },
+      {
+        "id": "now",
+        "title": "此刻 / Now",
+        "slug": "now",
+        "description": "正在关注、学习和思考的事。",
+        "order": 20
+      },
+      {
+        "id": "timeline",
+        "title": "时间线",
+        "slug": "timeline",
+        "description": "为人生的每一个阶段留一页。",
+        "order": 30
+      }
+    ],
+    "order": 10
+  },
+  {
+    "id": "undergraduate",
+    "title": "本科阶段",
+    "slug": "undergraduate",
+    "label": "UNDERGRADUATE",
+    "description": "把求学的日子，整理成可以回看的章节。",
+    "children": [
+      {
+        "id": "freshman",
+        "title": "大一",
+        "slug": "freshman",
+        "order": 10
+      },
+      {
+        "id": "sophomore",
+        "title": "大二",
+        "slug": "sophomore",
+        "order": 20
+      },
+      {
+        "id": "junior",
+        "title": "大三",
+        "slug": "junior",
+        "order": 30
+      },
+      {
+        "id": "senior",
+        "title": "大四",
+        "slug": "senior",
+        "order": 40
+      }
+    ],
+    "order": 20
+  },
+  {
+    "id": "study",
+    "title": "学习笔记",
+    "slug": "study",
+    "label": "STUDY NOTES",
+    "description": "从一个问题出发，沿着原理往深处走。",
+    "children": [
+      {
+        "id": "math",
+        "title": "数学",
+        "slug": "math",
+        "order": 10
+      },
+      {
+        "id": "cs408",
+        "title": "408",
+        "slug": "408",
+        "order": 20
+      },
+      {
+        "id": "cpp",
+        "title": "C++",
+        "slug": "cpp",
+        "order": 30
+      },
+      {
+        "id": "os",
+        "title": "操作系统",
+        "slug": "os",
+        "order": 40
+      },
+      {
+        "id": "networks",
+        "title": "计算机网络",
+        "slug": "networks",
+        "order": 50
+      }
+    ],
+    "order": 30
+  },
+  {
+    "id": "infra",
+    "title": "AI Infra",
+    "slug": "infra",
+    "label": "AI INFRA",
+    "description": "在模型之下，理解支撑智能的系统。",
+    "children": [
+      {
+        "id": "cuda",
+        "title": "CUDA",
+        "slug": "cuda",
+        "description": "并行计算、存储层次与 Kernel 实践。",
+        "order": 10
+      },
+      {
+        "id": "gpu",
+        "title": "GPU Architecture",
+        "slug": "gpu",
+        "description": "从线程到硬件执行。",
+        "order": 20
+      },
+      {
+        "id": "llm",
+        "title": "LLM Systems",
+        "slug": "llm",
+        "order": 30
+      },
+      {
+        "id": "distributed",
+        "title": "Distributed Training",
+        "slug": "distributed",
+        "order": 40
+      },
+      {
+        "id": "inference",
+        "title": "Inference",
+        "slug": "inference",
+        "order": 50
+      },
+      {
+        "id": "operators",
+        "title": "Operator Optimization",
+        "slug": "operators",
+        "order": 60
+      }
+    ],
+    "order": 40
+  },
+  {
+    "id": "projects",
+    "title": "项目",
+    "slug": "projects",
+    "label": "PROJECTS",
+    "description": "想法的实现过程，以及过程中留下的问题。",
+    "children": [
+      {
+        "id": "codex",
+        "title": "Personal Codex",
+        "slug": "codex",
+        "order": 10
+      },
+      {
+        "id": "experiments",
+        "title": "实验记录",
+        "slug": "experiments",
+        "order": 20
+      }
+    ],
+    "order": 50
+  },
+  {
+    "id": "reading",
+    "title": "阅读",
+    "slug": "reading",
+    "label": "READING",
+    "description": "读过的文字，和它们引出的思考。",
+    "children": [
+      {
+        "id": "books",
+        "title": "书籍",
+        "slug": "books",
+        "order": 10
+      },
+      {
+        "id": "papers",
+        "title": "论文",
+        "slug": "papers",
+        "order": 20
+      },
+      {
+        "id": "fragments",
+        "title": "摘录",
+        "slug": "fragments",
+        "order": 30
+      }
+    ],
+    "order": 60
+  },
+  {
+    "id": "essays",
+    "title": "随笔",
+    "slug": "essays",
+    "label": "MARGINALIA",
+    "description": "不急着得出结论，先把想法放在这里。",
+    "children": [
+      {
+        "id": "life",
+        "title": "日常",
+        "slug": "life",
+        "order": 10
+      },
+      {
+        "id": "thoughts",
+        "title": "思考",
+        "slug": "thoughts",
+        "order": 20
+      }
+    ],
+    "order": 70
+  }
+]

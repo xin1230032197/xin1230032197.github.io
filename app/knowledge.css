@@ -1,0 +1,116 @@
+.knowledge-sections {
+  margin-top: 40px;
+  min-width: 0;
+}
+.knowledge-section {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-top: 32px;
+}
+.knowledge-section h2 {
+  color: var(--metal);
+  margin-bottom: 18px;
+}
+.knowledge-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.knowledge-section li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+.knowledge-section li > a {
+  color: var(--text);
+  font-family: var(--heading);
+  font-size: 19px;
+}
+.knowledge-section li > a:hover {
+  color: var(--accent);
+}
+.knowledge-section small {
+  display: block;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.8;
+}
+.knowledge-section p {
+  font-family: var(--prose);
+  line-height: 1.85;
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 10px;
+}
+.knowledge-empty {
+  font-size: 14px;
+  color: var(--muted);
+}
+.tags a {
+  color: inherit;
+  text-decoration: none;
+}
+.tags a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.wiki-broken {
+  color: var(--text);
+  border-bottom: 2px dashed var(--metal);
+  background: var(--hover);
+  cursor: help;
+}
+.wiki-broken::after {
+  content: " ⚠";
+  color: var(--metal);
+  font-size: 0.8em;
+}
+.tag-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+.tag-index a {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+.tag-index span {
+  margin-left: 12px;
+  color: var(--muted);
+}
+.command-results [cmdk-item] > div {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.command-results [cmdk-item] > .meta {
+  flex-shrink: 0;
+}
+.command-results small {
+  white-space: normal;
+  line-height: 1.7;
+}
+.command-results mark {
+  background: var(--hover);
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.search-snippet {
+  color: var(--muted);
+  font-family: var(--prose);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 5px;
+  white-space: normal;
+}
+@media (max-width: 640px) {
+  .knowledge-section li > a {
+    font-size: 17px;
+  }
+  .command-results [cmdk-item] {
+    gap: 12px;
+  }
+}

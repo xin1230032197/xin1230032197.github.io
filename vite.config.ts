@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { sites } from "./build/sites-vite-plugin";
+import { codexContent } from "./build/content-vite-plugin";
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
@@ -36,6 +37,21 @@ const localBindingConfig = {
 };
 
 export default defineConfig(async () => {
+  if (process.env.GITHUB_PAGES === "true") {
+    return {
+      plugins: [
+        {
+          name: "pages-native-links",
+          enforce: "pre",
+          transform(code: string, id: string) {
+            if (id.includes("node_modules") || !/\.[jt]sx?$/.test(id)) return;
+            return code.replace(/(["'])next\/link\1/g, '"@/components/content/PagesLink"');
+          },
+        },
+        codexContent(), vinext(),
+      ],
+    };
+  }
   // Use Miniflare's local Request.cf placeholder unless fetching is requested.
   process.env.CLOUDFLARE_CF_FETCH_ENABLED ??= "false";
   process.env.WRANGLER_SEND_METRICS ??= "false";
@@ -52,10 +68,15 @@ export default defineConfig(async () => {
 
   return {
     server: {
-      ...(managedLinux ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] } : {}),
-      ...(isCodexSeatbeltSandbox ? { watch: { useFsEvents: false, usePolling: true } } : {}),
+      ...(managedLinux
+        ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
+        : {}),
+      ...(isCodexSeatbeltSandbox
+        ? { watch: { useFsEvents: false, usePolling: true } }
+        : {}),
     },
     plugins: [
+      codexContent(),
       vinext(),
       sites({ mockAuth: !managedLinux }),
       cloudflare({

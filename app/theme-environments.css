@@ -1,0 +1,752 @@
+/* Every environment is a composited scene, independent of reading content. */
+.theme-backgrounds {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+.theme-environment {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 350ms ease,
+    visibility 350ms;
+}
+.environment-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.theme-environment > * {
+  animation-play-state: paused !important;
+}
+[data-theme="ink"] .ink-environment {
+  opacity: 1;
+  visibility: visible;
+}
+[data-theme="ink"] .ink-environment > * {
+  animation-play-state: running !important;
+}
+[data-theme="ink"] {
+  --bg: #060c09;
+  --surface: #101812;
+  --text: #e7e6d9;
+  --muted: #a3ad9e;
+  --accent: #b2d8b5;
+  --faint: #7e8978;
+  --border: rgba(175, 151, 96, 0.24);
+  --metal: #b59b65;
+  --metal-dim: rgba(181, 155, 101, 0.27);
+  --hover: rgba(142, 166, 113, 0.09);
+  --panel-tint: rgba(5, 12, 8, 0.65);
+  --reading-tint: rgba(5, 12, 8, 0.54);
+}
+[data-theme="ink"] body::before,
+[data-theme="ink"] body::after {
+  display: none;
+}
+.ink-base {
+  background: #060c09;
+}
+.ink-atmosphere {
+  background:
+    radial-gradient(ellipse at 74% 21%, #18362699, transparent 49%),
+    radial-gradient(ellipse at 5% 62%, #14251c, transparent 38%);
+}
+.ink-library-vignette {
+  position: absolute;
+  width: clamp(540px, 46vw, 1080px);
+  height: 100%;
+  right: -1%;
+  bottom: 0;
+  background: url("/theme-assets/ink-library.webp") 75% 53% / cover no-repeat;
+  opacity: 0.91;
+  mask-image: linear-gradient(90deg, transparent, #000 28%);
+}
+.ink-window-light {
+  background: conic-gradient(
+    from 213deg at 92% -12%,
+    transparent 0deg,
+    rgba(118, 163, 114, 0.07) 8deg,
+    rgba(135, 168, 116, 0.19) 14deg,
+    transparent 20deg,
+    rgba(129, 165, 111, 0.08) 27deg,
+    transparent 33deg
+  );
+
+  transform-origin: 95% 0;
+  animation: archive-light 55s ease-in-out infinite alternate;
+}
+.ink-candle-light {
+  background: radial-gradient(ellipse at 92% 69%, #b58a3229, transparent 22%);
+  mix-blend-mode: screen;
+}
+.ink-material {
+  background-image: url("/textures/archive-marble.webp");
+  background-size: 540px 800px;
+  opacity: 0.37;
+  mask-image: linear-gradient(
+    90deg,
+    #000 0,
+    transparent 24%,
+    transparent 72%,
+    #000 100%
+  );
+}
+.celestial-geometry {
+  position: absolute;
+  color: var(--metal);
+}
+.ink-astrolabe {
+  width: 630px;
+  height: 630px;
+  left: -260px;
+  top: 5%;
+  opacity: 0.2;
+  transform: rotate(-14deg);
+}
+.ink-dust {
+  background-image:
+    radial-gradient(1px 1px at 17% 22%, #decda599 50%, transparent),
+    radial-gradient(1px 1px at 74% 13%, #decda5 50%, transparent),
+    radial-gradient(1px 1px at 82% 44%, #decda5aa 50%, transparent),
+    radial-gradient(1px 1px at 91% 28%, #decda5 50%, transparent),
+    radial-gradient(1px 1px at 49% 63%, #decda555 50%, transparent);
+  opacity: 0.45;
+  animation: archive-dust 38s ease-in-out infinite alternate;
+}
+.ink-reading-veil {
+  background: linear-gradient(
+    90deg,
+    transparent 12%,
+    #050c0877 25%,
+    #050c08bb 44%,
+    #050c0840 66%,
+    transparent 88%
+  );
+}
+.ink-vignette {
+  background:
+    radial-gradient(ellipse at 55% 39%, transparent 34%, #01070485 100%),
+    url("/textures/archive-grain.webp");
+  background-size:
+    auto,
+    230px 230px;
+  opacity: 0.35;
+}
+@keyframes archive-light {
+  to {
+    transform: rotate(-3deg);
+    opacity: 0.65;
+  }
+}
+@keyframes archive-dust {
+  to {
+    transform: translate3d(-14px, -24px, 0);
+    opacity: 0.26;
+  }
+}
+@media (min-width: 2200px) {
+  .ink-library-vignette {
+    width: 48vw;
+    right: -2%;
+  }
+  .ink-astrolabe {
+    left: -170px;
+    top: 10%;
+    width: 760px;
+    height: 760px;
+  }
+}
+@media (max-width: 1150px) {
+  .ink-library-vignette {
+    right: -18%;
+    opacity: 0.57;
+  }
+  .ink-reading-veil {
+    background: linear-gradient(90deg, #050c0844, #050c08a8 55%, #050c0855);
+  }
+}
+@media (max-width: 720px) {
+  .ink-library-vignette {
+    width: 100%;
+    right: -20%;
+    opacity: 0.28;
+  }
+  .ink-window-light {
+    opacity: 0.4;
+  }
+  .ink-material {
+    opacity: 0.22;
+  }
+  .ink-astrolabe {
+    width: 400px;
+    height: 400px;
+    left: -270px;
+    opacity: 0.11;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-environment,
+  .theme-inscription {
+    transition: none;
+  }
+  .theme-environment *,
+  .theme-environment *::before,
+  .theme-environment *::after {
+    animation: none !important;
+  }
+}
+/* ZEN: paper, mineral pigment, fragments of gold. Warm light and dilute pigment drift over anchored paper. */
+[data-theme="zen"] {
+  --bg: #f2e9d8;
+  --surface: #f6eddd;
+  --text: #302d25;
+  --muted: #6c6658;
+  --accent: #536b4b;
+  --faint: #8b806a;
+  --border: rgba(158, 123, 63, 0.29);
+  --metal: #9e763c;
+  --metal-dim: rgba(169, 126, 55, 0.3);
+  --hover: rgba(186, 151, 80, 0.095);
+  --panel-tint: rgba(250, 243, 224, 0.27);
+  --reading-tint: rgba(250, 242, 224, 0.48);
+}
+[data-theme="zen"] .zen-environment {
+  opacity: 1;
+  visibility: visible;
+}
+[data-theme="zen"] body::before,
+[data-theme="zen"] body::after {
+  display: none;
+}
+.zen-base {
+  background: #f2e9d8;
+}
+.zen-natural-light {
+  background:
+    radial-gradient(ellipse at 44% 18%, #fff9e5e0, transparent 65%),
+    linear-gradient(108deg, #d8c8a638, transparent 29%, #f4dfb421);
+}
+.zen-paper-fiber {
+  background: url("/textures/washi-fibers.webp") 0 0 / 400px 400px repeat;
+  opacity: 0.57;
+  mix-blend-mode: multiply;
+}
+.zen-ink-landscape {
+  position: absolute;
+  width: clamp(670px, 56vw, 1480px);
+  height: 70%;
+  right: -7%;
+  bottom: -8%;
+  background: url("/theme-assets/zen-ink-wash.webp") right bottom / cover
+    no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.84;
+  mask-image: linear-gradient(90deg, transparent, #000 42%);
+}
+.zen-edge-wash {
+  position: absolute;
+  width: 440px;
+  height: 580px;
+  left: -220px;
+  bottom: -100px;
+  background: url("/theme-assets/zen-ink-wash.webp") 70% 100% / auto 100%
+    no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.54;
+  mask-image: linear-gradient(0deg, #000 25%, transparent);
+}
+.zen-gold-leaf {
+  background-image: url("/textures/gold-leaf.webp");
+  background-size: 250px 420px;
+  opacity: 0.26;
+  mask-image: linear-gradient(
+    90deg,
+    #000,
+    transparent 7%,
+    transparent 93%,
+    #000
+  );
+}
+.zen-binding-lines {
+  inset: 18px 28px;
+  border: 1px solid #b89d6644;
+  box-shadow: inset 0 0 0 5px #efe0bd2b;
+  opacity: 0.75;
+}
+.zen-paper-grain {
+  background: url("/textures/archive-grain.webp") 0 0 / 200px 200px;
+  opacity: 0.085;
+  mix-blend-mode: multiply;
+}
+[data-theme="zen"] .wordmark {
+  color: #272921;
+}
+[data-theme="zen"] .article-body blockquote {
+  border-left-color: #b48a4c;
+  background: linear-gradient(90deg, #ddc8993d, #ddc89908);
+}
+[data-theme="zen"] .command-dialog {
+  box-shadow: 0 15px 80px #5a442026;
+  background-image: url("/textures/washi-fibers.webp");
+}
+[data-theme="zen"] .theme-options [data-swatch="zen"] {
+  border-color: #9e763c;
+}
+
+@media (max-width: 1150px) {
+  .zen-ink-landscape {
+    right: -25%;
+    width: 100%;
+    height: 60%;
+    opacity: 0.48;
+  }
+}
+@media (max-width: 720px) {
+  .zen-ink-landscape {
+    width: 125%;
+    right: -38%;
+    height: 53%;
+    opacity: 0.27;
+  }
+  .zen-edge-wash {
+    display: none;
+  }
+  .zen-binding-lines {
+    inset: 9px;
+    opacity: 0.35;
+  }
+  .zen-gold-leaf {
+    opacity: 0.24;
+  }
+}
+
+/* Feather the local material boundaries into the procedural paper. */
+.zen-ink-landscape {
+  mask-image:
+    linear-gradient(90deg, transparent, #000 42%),
+    linear-gradient(180deg, transparent, #000 30%);
+  mask-composite: intersect;
+}
+.zen-edge-wash {
+  mask-image: radial-gradient(ellipse at 0 100%, #000 28%, transparent 73%);
+}
+.zen-gold-corner {
+  position: absolute;
+  top: -25px;
+  right: -25px;
+  width: 420px;
+  height: 350px;
+  background: url("/theme-assets/zen-ink-wash.webp") right top / auto 520px
+    no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.65;
+  mask-image: radial-gradient(ellipse at 100% 0, #000 22%, transparent 73%);
+}
+@media (max-width: 720px) {
+  .zen-gold-corner {
+    width: 220px;
+    height: 260px;
+    opacity: 0.3;
+  }
+}
+
+/* AURORA: independent light ribbons, celestial terrain, and an orbital atlas. */
+[data-theme="aurora"] {
+  --bg: #020c13;
+  --surface: #071923;
+  --text: #dfebe8;
+  --muted: #9db6b8;
+  --accent: #98e0c9;
+  --faint: #78979b;
+  --border: rgba(119, 180, 182, 0.23);
+  --metal: #85bcb5;
+  --metal-dim: rgba(112, 179, 177, 0.25);
+  --hover: rgba(84, 187, 165, 0.085);
+  --panel-tint: rgba(2, 13, 20, 0.55);
+  --reading-tint: rgba(2, 13, 20, 0.48);
+}
+[data-theme="aurora"] body::before,
+[data-theme="aurora"] body::after {
+  display: none;
+}
+[data-theme="aurora"] .aurora-environment {
+  opacity: 1;
+  visibility: visible;
+}
+[data-theme="aurora"] .aurora-environment > * {
+  animation-play-state: running !important;
+}
+.aurora-base {
+  background: linear-gradient(
+    115deg,
+    #021016,
+    #03131e 43%,
+    #052a2d 79%,
+    #03121f
+  );
+}
+.aurora-star-field {
+  opacity: 0.76;
+  animation: celestial-twinkle 43s ease-in-out infinite alternate;
+}
+.aurora-ribbons {
+  position: absolute;
+  inset: -16% -5% -6%;
+  width: 110%;
+  height: 122%;
+  opacity: 0.88;
+  transform-origin: 75% 20%;
+  animation: aurora-drift 56s ease-in-out infinite alternate;
+}
+.aurora-celestial-landscape {
+  position: absolute;
+  width: clamp(600px, 47vw, 1250px);
+  height: 100%;
+  right: -3%;
+  bottom: 0;
+  background: url("/theme-assets/aurora-observatory.webp") right 56% / cover
+    no-repeat;
+  mask-image: linear-gradient(90deg, transparent, #000 43%);
+  opacity: 0.92;
+}
+.aurora-orbits {
+  width: 810px;
+  height: 810px;
+  left: -370px;
+  bottom: -210px;
+  color: #4c999e;
+  opacity: 0.29;
+  animation: celestial-orbit 120s linear infinite;
+}
+.aurora-space-haze {
+  background:
+    radial-gradient(ellipse at 79% 67%, #52b7af19, transparent 32%),
+    linear-gradient(164deg, transparent 42%, #17848114 63%, transparent 78%);
+
+  mix-blend-mode: screen;
+}
+.aurora-chart {
+  background-image:
+    linear-gradient(#82c6cb0b 1px, transparent 1px),
+    linear-gradient(90deg, #82c6cb0b 1px, transparent 1px);
+  background-size: 96px 96px;
+  mask-image: linear-gradient(
+    90deg,
+    #000,
+    transparent 20%,
+    transparent 88%,
+    #000
+  );
+  opacity: 0.5;
+}
+.aurora-reading-veil {
+  background: linear-gradient(
+    90deg,
+    transparent 10%,
+    #020e1566 25%,
+    #020d15a1 43%,
+    #020d1555 65%,
+    transparent 84%
+  );
+}
+.aurora-grain {
+  background:
+    radial-gradient(ellipse at 68% 44%, transparent 38%, #00071270),
+    url("/textures/archive-grain.webp");
+  background-size:
+    auto,
+    240px 240px;
+  opacity: 0.28;
+}
+[data-theme="aurora"] .command-dialog {
+  background: #071923f5;
+  backdrop-filter: blur(18px);
+}
+@keyframes celestial-twinkle {
+  to {
+    opacity: 0.45;
+  }
+}
+@keyframes celestial-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (min-width: 2200px) {
+  .aurora-celestial-landscape {
+    width: 48vw;
+    right: -1%;
+  }
+  .aurora-orbits {
+    left: -280px;
+    width: 1000px;
+    height: 1000px;
+  }
+}
+@media (max-width: 1150px) {
+  .aurora-celestial-landscape {
+    right: -25%;
+    opacity: 0.63;
+  }
+  .aurora-ribbons {
+    opacity: 0.62;
+  }
+}
+@media (max-width: 720px) {
+  .aurora-celestial-landscape {
+    width: 110%;
+    right: -28%;
+    opacity: 0.36;
+  }
+  .aurora-ribbons {
+    width: 190%;
+    left: -65%;
+    opacity: 0.45;
+  }
+  .aurora-orbits {
+    width: 520px;
+    height: 520px;
+    left: -350px;
+    opacity: 0.18;
+  }
+  .aurora-reading-veil {
+    background: #020e154a;
+  }
+}
+
+/* Living environments: only ambient layers move; paper, terrain and text stay anchored. */
+[data-theme="zen"] .zen-environment > * {
+  animation-play-state: running !important;
+}
+.ink-atmosphere {
+  inset: -5%;
+  animation: atmosphere-breath 47s ease-in-out infinite alternate;
+}
+.ink-candle-light {
+  animation: candle-breath 31s ease-in-out infinite alternate;
+}
+.ink-dust {
+  animation-duration: 38s;
+}
+.zen-natural-light {
+  inset: -8%;
+  animation: washi-daylight 26s ease-in-out infinite alternate;
+}
+.zen-flowing-wash {
+  inset: -12%;
+  background:
+    radial-gradient(ellipse at 90% 80%, #6f796a45, transparent 29%),
+    radial-gradient(ellipse at 7% 47%, #7f806533, transparent 23%);
+
+  mix-blend-mode: multiply;
+  animation: ink-wash-flow 24s ease-in-out infinite alternate;
+}
+.zen-light-sweep {
+  inset: -18%;
+  background: linear-gradient(
+    117deg,
+    transparent 37%,
+    #fffbed70 49%,
+    #fff5d64d 55%,
+    transparent 68%
+  );
+  animation: washi-light-flow 22s ease-in-out infinite alternate;
+}
+.zen-gold-leaf {
+  animation: gold-breath 33s ease-in-out infinite alternate;
+}
+.aurora-space-haze {
+  inset: -8%;
+  animation: cosmic-haze 54s ease-in-out infinite alternate;
+}
+@keyframes atmosphere-breath {
+  to {
+    transform: translate3d(-2%, 2%, 0) scale(1.05);
+    opacity: 0.72;
+  }
+}
+@keyframes candle-breath {
+  45% {
+    opacity: 0.6;
+    transform: scale(1.035);
+  }
+  to {
+    opacity: 0.9;
+    transform: translate3d(-0.6%, -0.5%, 0);
+  }
+}
+@keyframes washi-daylight {
+  to {
+    transform: translate3d(8%, 4%, 0);
+    opacity: 0.65;
+  }
+}
+@keyframes ink-wash-flow {
+  to {
+    transform: translate3d(-7%, -5%, 0) scale(1.08);
+    opacity: 0.55;
+  }
+}
+@keyframes washi-light-flow {
+  from {
+    transform: translate3d(-12%, -2%, 0) rotate(-3deg);
+  }
+  to {
+    transform: translate3d(12%, 3%, 0) rotate(3deg);
+  }
+}
+@keyframes gold-breath {
+  to {
+    opacity: 0.17;
+  }
+}
+@keyframes cosmic-haze {
+  to {
+    transform: translate3d(-4%, 3%, 0) scale(1.07);
+    opacity: 0.6;
+  }
+}
+
+.ink-window-light {
+  animation-delay: -19s;
+}
+.ink-dust {
+  animation-delay: -11s;
+}
+.zen-natural-light {
+  animation-delay: -16s;
+}
+.zen-flowing-wash {
+  animation-delay: -22s;
+}
+.zen-light-sweep {
+  animation-delay: -9s;
+}
+.aurora-ribbons {
+  animation-delay: -17s;
+}
+.aurora-space-haze {
+  animation-delay: -21s;
+}
+@keyframes aurora-drift {
+  to {
+    transform: translate3d(5%, -4%, 0) rotate(5deg) scale(1.045);
+    opacity: 0.74;
+  }
+}
+
+/* Pre-rendered materials keep filter work out of the scrolling compositor. */
+.theme-backgrounds {
+  transform: translateZ(0);
+}
+.theme-environment {
+  isolation: isolate;
+}
+.aurora-ribbons {
+  background: url("/textures/aurora-ribbons.webp") center / cover no-repeat;
+}
+[data-theme="ink"] .ink-window-light,
+[data-theme="ink"] .ink-dust,
+[data-theme="zen"] .zen-light-sweep,
+[data-theme="aurora"] .aurora-ribbons {
+  will-change: transform, opacity;
+}
+.ink-window-light {
+  inset: -8%;
+  background: conic-gradient(
+    from 204deg at 93% -5%,
+    transparent 0deg,
+    #9abb8221 7deg,
+    #bfdba04a 13deg,
+    #85b78316 19deg,
+    transparent 25deg,
+    #a4c79623 30deg,
+    transparent 38deg
+  );
+  animation: archive-light 28s ease-in-out infinite alternate;
+  animation-delay: -12s;
+}
+@keyframes archive-light {
+  from {
+    transform: rotate(-3deg) translate3d(-1%, 0, 0);
+    opacity: 0.6;
+  }
+  to {
+    transform: rotate(5deg) translate3d(2%, 1%, 0);
+    opacity: 1;
+  }
+}
+.ink-dust {
+  inset: -12% 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 18%, #e0d7abcc 45%, transparent),
+    radial-gradient(1px 1px at 16% 39%, #bfd4bbaa 45%, transparent),
+    radial-gradient(2px 2px at 78% 24%, #dfdbbebb 30%, transparent),
+    radial-gradient(1.4px 1.4px at 87% 61%, #d3d8bccc 40%, transparent),
+    radial-gradient(1px 1px at 94% 37%, #dbe1cacc 40%, transparent),
+    radial-gradient(1.6px 1.6px at 74% 76%, #d3debea6 40%, transparent),
+    radial-gradient(1px 1px at 92% 87%, #ded1aabb 45%, transparent),
+    radial-gradient(1.3px 1.3px at 5% 70%, #b5cdb2aa 45%, transparent),
+    radial-gradient(1px 1px at 82% 48%, #ebe0bdbb 45%, transparent);
+  animation: archive-dust 24s linear infinite;
+  animation-delay: -7s;
+}
+.ink-dust-near {
+  animation-duration: 31s;
+  animation-delay: -19s;
+  background-size: 113% 83%;
+}
+@keyframes archive-dust {
+  0% {
+    transform: translate3d(0, 40px, 0);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.8;
+  }
+  78% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(-65px, -110px, 0);
+    opacity: 0;
+  }
+}
+@media (max-width: 720px) {
+  .ink-dust-near {
+    display: none;
+  }
+  .ink-window-light {
+    opacity: 0.6;
+  }
+}
+
+/* A slow drift across the paper, with sparse glints at the margins. */
+.zen-floating-gold {
+  inset: -10% 0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 8% 20%, #b18b4dc9 40%, transparent),
+    radial-gradient(1px 1px at 14% 64%, #ad8544aa 40%, transparent),
+    radial-gradient(2px 2px at 85% 31%, #b59152bb 30%, transparent),
+    radial-gradient(1.4px 1.4px at 93% 52%, #ae803bbb 40%, transparent),
+    radial-gradient(1px 1px at 78% 73%, #bb985cbb 40%, transparent),
+    radial-gradient(1.5px 1.5px at 89% 89%, #ba924fcc 40%, transparent),
+    radial-gradient(1px 1px at 5% 87%, #b79052aa 40%, transparent);
+  animation: washi-gold-drift 27s linear infinite;
+  animation-delay: -11s;
+}
+[data-theme=zen] .zen-flowing-wash,
+[data-theme=zen] .zen-floating-gold { will-change: transform, opacity; }
+@keyframes washi-gold-drift {
+  0% { transform: translate3d(-30px, 40px, 0); opacity: 0; }
+  20% { opacity: .75; }
+  80% { opacity: .7; }
+  100% { transform: translate3d(60px, -90px, 0); opacity: 0; }
+}

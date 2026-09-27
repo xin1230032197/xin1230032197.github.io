@@ -1,5 +1,4 @@
-import { PersonalSpace } from "@/components/PersonalSpace";
-
+import { CodexPage } from "@/components/codex/CodexPage";
 export default function Home() {
-  return <PersonalSpace />;
+  return <CodexPage />;
 }

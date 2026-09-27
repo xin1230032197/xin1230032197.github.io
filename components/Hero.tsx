@@ -1,24 +1,21 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
-import { demoContent } from "@/data/demoContent";
+import { motion } from "framer-motion";
+import { siteContent } from "@/data/siteContent";
 
-export function Hero({ onEnter }: { onEnter: () => void }) {
+export function Hero() {
   return (
-    <section className="hero">
-      <div className="hero-layout hero-enter">
-        <div className="hero-copy">
-          <h1>{demoContent.hero.name}<span>{demoContent.hero.subtitle}</span></h1>
-          <div className="hero-intro">
-            <p>{demoContent.hero.field1}</p>
-            <p>{demoContent.hero.field2}</p>
-            <blockquote>{demoContent.hero.quote}</blockquote>
-          </div>
-          <button id="enter-library" className="enter-button" onClick={onEnter}>
-            <span>{demoContent.hero.button}</span><ArrowUpRight size={19} aria-hidden="true" />
-          </button>
-        </div>
-      </div>
+    <section className="hero" id="home" aria-labelledby="hero-title">
+      <div className="hero-background" aria-hidden="true" />
+      <div className="hero-shade" aria-hidden="true" />
+      <motion.h1
+        id="hero-title"
+        initial={{ opacity: 0, y: 18, filter: "blur(10px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {siteContent.hero.title}
+      </motion.h1>
     </section>
   );
 }
