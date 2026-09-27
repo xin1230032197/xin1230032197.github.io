@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import Markdown from "react-markdown";
@@ -106,7 +107,10 @@ test("captions are valid figure siblings and all callout variants keep ordinary 
   assert.equal((html.match(/class="callout"/g) || []).length, 5);
 });
 test("three real Chinese articles exercise the complete Markdown pipeline", () => {
-  const source = readContentSource(process.cwd());
+  // Regression examples are independent of the author's editable/deletable library.
+  const source = readContentSource(
+    fileURLToPath(new URL("./fixtures/article-experience/", import.meta.url)),
+  );
   const index = buildContent(source.config, source.files);
   for (const slug of [
     "stable-softmax",

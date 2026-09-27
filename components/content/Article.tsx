@@ -37,7 +37,6 @@ export function Article({
             UPDATED / <time dateTime={a.updated}>{formatDate(a.updated)}</time>
           </span>
           <span>{Math.max(1, Math.ceil(a.body.length / 650))} MIN READ</span>
-          {a.sample && <span className="sample-label">示例笔记</span>}
         </div>
         <div className="tags">
           {a.tags.map((t) => (

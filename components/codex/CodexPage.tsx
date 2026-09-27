@@ -50,8 +50,9 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
           <section className="currently" id="currently">
             <h2 className="eyebrow">CURRENTLY</h2>
             <div>
+              {!site.interests.length && <p>目录尚未建立。</p>}
               {site.interests.map((i) => (
-                <Link key={i.title} href={i.href}>
+                <Link key={i.href} href={i.href}>
                   {i.title}
                   <span>↗</span>
                 </Link>
@@ -68,6 +69,7 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
               <span className="meta">最近翻动的几页</span>
             </div>
             <div className="article-list">
+              {!recent.length && <p className="collection-description">还没有发布的文章。</p>}
               {recent.map((a, i) => (
                 <Link className="article-row" key={a.id} href={articleHref(a)}>
                   <span className="row-number">
@@ -76,8 +78,8 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
                   <span className="row-main">
                     <strong>{a.title}</strong>
                     <small>
-                      {navigation.find((p) => p.id === a.primary)?.title} /{" "}
-                      {a.tags[0]}
+                      {navigation.find((p) => p.id === a.primary)?.title}
+                      {a.tags[0] && ` / ${a.tags[0]}`}
                     </small>
                   </span>
                   <time dateTime={a.updated}>
@@ -95,6 +97,7 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
                 书架 / {String(navigation.length).padStart(2, "0")}
               </span>
             </div>
+            {!navigation.length && <p className="collection-description">暂时没有目录。</p>}
             {navigation.map((p, i) => (
               <Link href={`/${p.slug}`} key={p.id} className="index-row">
                 <span className="row-number">
@@ -155,7 +158,6 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
                       <p>{a.description}</p>
                       <small>
                         {formatDate(a.updated)}
-                        {a.sample && " · 示例笔记"}
                       </small>
                     </span>
                     <span className="row-arrow">↗</span>
@@ -172,6 +174,12 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
             </div>
           ) : (
             <div className="shelf-list">
+              {!primary.children.length && (
+                <div className="empty-shelf">
+                  <h2>这个目录还没有分类。</h2>
+                  <p>分类和文章发布后会显示在这里。</p>
+                </div>
+              )}
               {primary.children.map((s, i) => (
                 <Link
                   key={s.id}

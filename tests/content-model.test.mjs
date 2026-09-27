@@ -6,6 +6,7 @@ import {
   articleNeighbors,
 } from "../lib/content-model.ts";
 import { searchContent } from "../lib/search.ts";
+import { buildKnowledge } from "../lib/knowledge.ts";
 const config = [
   {
     id: "study",
@@ -21,6 +22,27 @@ const files = {
   "study/408/cache.md": note("Cache", 20),
   "study/408/pipeline.md": note("Pipeline", 10),
 };
+
+test("empty libraries and entirely custom directories have no required demo content", () => {
+  const empty = buildContent([], {});
+  assert.deepEqual(empty.articles, []);
+  assert.deepEqual(empty.navigation, []);
+  assert.ok(resolveContent(empty, []).valid);
+  assert.deepEqual(buildKnowledge(empty).tags, []);
+  assert.deepEqual(searchContent(empty.searchEntries, "缓存"), []);
+  const custom = buildContent([
+    { id: "myself", slug: "myself", title: "我", children: [] },
+    { id: "diary", slug: "kao-yan-ri-ji", title: "考研日记", children: [
+      { id: "records", slug: "suo-sui-ji-lu", title: "琐碎记录" },
+    ] },
+  ], { "kao-yan-ri-ji/suo-sui-ji-lu/today.md": "---\ntitle: 今天的记录\ndate: 2026-09-27\n---\n\n记录自己的学习进度。" });
+  assert.ok(resolveContent(custom, ["myself"]).valid);
+  assert.equal(custom.articles.length, 1);
+  assert.equal(custom.articles[0].title, "今天的记录");
+  for (const oldPath of [["infra"], ["study", "408", "cache"]])
+    assert.equal(resolveContent(custom, oldPath).valid, false);
+  assert.deepEqual(articleNeighbors(custom, custom.articles[0]), { previous: undefined, next: undefined });
+});
 test("discovers nested Markdown; frontmatter drives hierarchy, stable routes and sorting", () => {
   const content = buildContent(config, files);
   assert.equal(content.articles[0].title, "Pipeline");

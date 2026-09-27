@@ -1,0 +1,31 @@
+[
+  {
+    "id": "study",
+    "slug": "study",
+    "title": "学习笔记",
+    "children": [
+      {
+        "id": "math",
+        "slug": "math",
+        "title": "数学"
+      },
+      {
+        "id": "cpp",
+        "slug": "cpp",
+        "title": "C++"
+      }
+    ]
+  },
+  {
+    "id": "infra",
+    "slug": "infra",
+    "title": "AI Infra",
+    "children": [
+      {
+        "id": "cuda",
+        "slug": "cuda",
+        "title": "CUDA"
+      }
+    ]
+  }
+]

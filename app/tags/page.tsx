@@ -17,6 +17,7 @@ export default function TagsPage() {
         <h1>标签</h1>
       </header>
       <div className="tag-index">
+        {!knowledge.tags.length && <p className="collection-description">还没有标签。</p>}
         {knowledge.tags.map((group) => (
           <Link key={group.tag} href={group.href}>
             #{group.tag}
