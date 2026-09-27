@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "myself",
+    "slug": "myself",
+    "title": "我",
+    "order": 1000,
+    "children": []
+  },
+  {
+    "id": "kao-yan-ri-ji",
+    "slug": "kao-yan-ri-ji",
+    "title": "考研日记",
+    "order": 1000,
+    "children": [
+      {
+        "id": "suo-sui-ji-lu",
+        "slug": "suo-sui-ji-lu",
+        "title": "琐碎记录",
+        "order": 1000
+      }
+    ]
+  }
+]
