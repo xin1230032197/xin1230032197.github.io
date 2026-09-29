@@ -3,14 +3,14 @@
     "id": "myself",
     "slug": "myself",
     "title": "我",
-    "order": 1000,
+    "order": 10,
     "children": []
   },
   {
     "id": "kao-yan-ri-ji",
     "slug": "kao-yan-ri-ji",
     "title": "考研日记",
-    "order": 1000,
+    "order": 20,
     "children": [
       {
         "id": "suo-sui-ji-lu",
