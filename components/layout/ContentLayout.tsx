@@ -118,7 +118,7 @@ export function ContentLayout({
       <div className="tablet-tools">
         <NavigationDrawer
           title={`${current?.title || "Codex"} / 目录`}
-          trigger="分类 / 本页目录"
+          trigger={article ? "分类 / 文章目录" : "分类 / 本页目录"}
         >
           {(close) => (
             <>

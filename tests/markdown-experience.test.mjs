@@ -41,6 +41,12 @@ function render(body) {
     ),
   );
 }
+test("Markdown heading links cover all six levels, Unicode and duplicate titles without indexing fenced code", () => {
+  const html = render("# 学习计划\n\n## 今日安排\n\n### 线性代数\n\n#### 矩阵\n\n##### 小结\n\n###### 补充\n\n## 今日安排\n\n```md\n# 这是代码\n```");
+  for (const [level, id] of [[1, "学习计划"], [2, "今日安排"], [3, "线性代数"], [4, "矩阵"], [5, "小结"], [6, "补充"], [2, "今日安排-1"]])
+    assert.ok(html.includes(`<h${level} id="${id}">`), `missing heading anchor: ${id}`);
+  assert.doesNotMatch(html, /<h1 id="这是代码"/);
+});
 test("fenced code retains exact source and multiline tokens, with bounded selected lines", () => {
   const raw = "/* 多行\n * 注释 */\nconst n = 42;\n";
   const code = {

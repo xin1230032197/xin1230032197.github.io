@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 type Heading = { id: string; text: string; level: number };
 export function TableOfContents({
   contentKey,
@@ -10,18 +10,20 @@ export function TableOfContents({
 }) {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [active, setActive] = useState("");
+  const listId = useId();
   useEffect(() => {
+    const body = document.querySelector(".article-body");
     const nodes = Array.from(
-      document.querySelectorAll<HTMLElement>(
-        ".article-body h2[id], .article-body h3[id], main > section[id], .content-column section[id]",
-      ),
-    );
+      body
+        ? body.querySelectorAll<HTMLElement>("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]")
+        : document.querySelectorAll<HTMLElement>("main > section[id], .content-column section[id]"),
+    ).filter((node) => !node.closest("[data-footnotes]"));
     const hs = nodes.map((n) => ({
       id: n.id,
       text: n.matches("section")
         ? n.querySelector("h2")?.textContent || n.id
-        : n.textContent?.replace(/#$/, "").trim() || "",
-      level: n.tagName === "H3" ? 3 : 2,
+        : headingText(n),
+      level: n.matches("section") ? 2 : Number(n.tagName.slice(1)),
     }));
     // Publish headings after the rendered Markdown has completed this frame.
     const headingFrame = requestAnimationFrame(() => {
@@ -88,23 +90,39 @@ export function TableOfContents({
     };
   }, [contentKey]);
   if (!headings.length) return null;
+  const baseLevel = Math.min(...headings.map((h) => h.level));
   return (
     <nav className="toc" aria-label="本页目录">
-      <h2 className="eyebrow">ON THIS PAGE</h2>
-      {headings.map((h) => (
-        <a
-          key={h.id}
-          className={h.level === 3 ? "toc-nested" : ""}
-          href={`#${h.id}`}
-          aria-current={active === h.id ? "location" : undefined}
-          onClick={() => {
-            setActive(h.id);
-            onNavigate?.();
-          }}
-        >
-          {h.text}
-        </a>
-      ))}
+      <details key={contentKey} className="toc-disclosure" open={onNavigate ? true : undefined}>
+        <summary className="toc-toggle" aria-controls={listId}>
+          <span className="eyebrow">文章目录</span>
+          <span className="toc-count">{headings.length} 节</span>
+          <span className="toc-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div id={listId} className="toc-items">
+          {headings.map((h) => (
+            <a
+              key={h.id}
+              className={h.level > baseLevel ? "toc-nested" : ""}
+              style={{ paddingInlineStart: `${(h.level - baseLevel) * 12}px` }}
+              href={`#${encodeURIComponent(h.id)}`}
+              aria-current={active === h.id ? "location" : undefined}
+              onClick={() => {
+                setActive(h.id);
+                onNavigate?.();
+              }}
+            >
+              {h.text}
+            </a>
+          ))}
+        </div>
+      </details>
     </nav>
   );
+}
+
+function headingText(node: HTMLElement) {
+  const copy = node.cloneNode(true) as HTMLElement;
+  copy.querySelectorAll(".heading-anchor, .katex-mathml").forEach((item) => item.remove());
+  return copy.textContent?.trim() || node.id;
 }
