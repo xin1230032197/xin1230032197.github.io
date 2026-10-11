@@ -4,7 +4,14 @@
     "slug": "myself",
     "title": "我",
     "order": 10,
-    "children": []
+    "children": [
+      {
+        "id": "plan",
+        "slug": "plan",
+        "title": "plan",
+        "order": 1000
+      }
+    ]
   },
   {
     "id": "kao-yan-ri-ji",
