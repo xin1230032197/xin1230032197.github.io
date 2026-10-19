@@ -48,11 +48,15 @@ export function highlightedLines(meta: string, count: number) {
   return selected;
 }
 
-/** Runs on the server, after KaTeX and slug generation; never accepts raw HTML. */
+/** Only bare HTML line breaks are accepted; other HTML stays escaped. */
 export function markdownExperience() {
   return (tree: Root) => {
     const walk = (parent: Root | Element) => {
-      for (const node of parent.children) {
+      for (const [index, node] of parent.children.entries()) {
+        if (node.type === "raw" && /^<br\s*\/?>$/i.test(node.value.trim())) {
+          parent.children[index] = element("br", []);
+          continue;
+        }
         if (node.type !== "element") continue;
         if (
           Array.isArray(node.properties.className) &&

@@ -47,6 +47,19 @@ test("Markdown heading links cover all six levels, Unicode and duplicate titles 
     assert.ok(html.includes(`<h${level} id="${id}">`), `missing heading anchor: ${id}`);
   assert.doesNotMatch(html, /<h1 id="这是代码"/);
 });
+
+test("bare HTML breaks render in prose and tables while code, escapes and other HTML stay literal", () => {
+  const html = render("第一行<br>第二行<br/>第三行<BR />第四行\n\n| 指南 |\n| --- |\n| 先复习<br>再练习 |\n\n`<br>` 与 &lt;br&gt;\n\n```html\n<br>\n```\n\n<br>\n\n<script>alert(1)</script>\n\n<img src=x onerror=alert(1)>\n\n<br onclick=alert(1)>");
+  assert.match(html, /第一行<br\/>第二行<br\/>第三行<br\/>第四行/);
+  assert.match(html, /<td>先复习<br\/>再练习<\/td>/);
+  assert.equal((html.match(/<br\/>/g) || []).length, 5);
+  assert.match(html, /<code>&lt;br&gt;<\/code>/);
+  assert.match(html, /与 &lt;br&gt;/);
+  assert.match(html, /data-source="&lt;br&gt;\n"/);
+  assert.doesNotMatch(html, /<script>|<img |<br onclick/);
+  assert.match(html, /&lt;script&gt;/);
+  assert.match(html, /&lt;br onclick=/);
+});
 test("fenced code retains exact source and multiline tokens, with bounded selected lines", () => {
   const raw = "/* 多行\n * 注释 */\nconst n = 42;\n";
   const code = {
