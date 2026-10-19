@@ -24,6 +24,12 @@
         "slug": "suo-sui-ji-lu",
         "title": "琐碎记录",
         "order": 1000
+      },
+      {
+        "id": "ying-yu",
+        "slug": "ying-yu",
+        "title": "英语",
+        "order": 1000
       }
     ]
   }
