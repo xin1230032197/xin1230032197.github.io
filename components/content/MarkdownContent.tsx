@@ -7,6 +7,7 @@ import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import { markdownExperience } from "@/lib/markdown-experience";
 import { CodeBlock } from "./CodeBlock";
+import { MarkdownTable } from "./MarkdownTable";
 import knowledge from "virtual:codex-knowledge";
 import { remarkWikiLinks } from "@/lib/wiki-links";
 
@@ -56,16 +57,7 @@ export function MarkdownContent({ body }: { body: string }) {
             {children}
           </CodeBlock>
         ),
-        table: ({ children }) => (
-          <div
-            className="table-scroll"
-            tabIndex={0}
-            role="region"
-            aria-label="表格，可横向滚动"
-          >
-            <table>{children}</table>
-          </div>
-        ),
+        table: ({ children }) => <MarkdownTable>{children}</MarkdownTable>,
         a: ({ node: _node, href, children, ...props }) => {
           void _node;
           const external = /^(https?:)?\/\//.test(href || "");
