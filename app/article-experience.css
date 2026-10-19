@@ -158,6 +158,16 @@
 .article-body .table-scroll {
   overscroll-behavior-x: contain;
 }
+.article-body table {
+  width: 100%;
+  white-space: normal;
+}
+.article-body :is(th, td) {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  vertical-align: top;
+  line-height: 1.8;
+}
 .markdown-table { min-width: 0; max-width: 100%; margin: 25px 0; }
 .markdown-table > .table-scroll { margin: 0; }
 .table-actions { display: flex; justify-content: flex-end; margin-bottom: 8px; }
@@ -209,7 +219,7 @@
 .table-viewer-close { flex-shrink: 0; }
 .table-viewer .table-viewer-body { display: flex; flex: 1; min-height: 0; }
 .table-viewer-body > .table-scroll { flex: 1; margin: 0; font-size: 14px; overscroll-behavior: contain; }
-.table-viewer .table-scroll table { width: max-content; min-width: 100%; }
+.table-viewer .table-scroll table { width: 100%; }
 .table-viewer .table-scroll th { position: sticky; top: 0; z-index: 1; background: var(--surface); }
 @media (max-width: 640px) {
   .table-viewer { inset: 0; padding: 16px 12px max(12px, env(safe-area-inset-bottom)); }
