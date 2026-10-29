@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
 import {
   navigation,
@@ -13,6 +13,9 @@ import { ThemeSwitcher } from "@/components/theme/ThemeProvider";
 import { StarOrnament } from "@/components/theme-backgrounds/Ornaments";
 import { CommandPalette } from "@/components/search/CommandPalette";
 import { TableOfContents } from "@/components/content/TableOfContents";
+import "@/components/explorer/entry.css";
+
+const NebulaExplorer = lazy(() => import("@/components/explorer/NebulaExplorer"));
 
 export function ContentLayout({
   children,
@@ -28,6 +31,14 @@ export function ContentLayout({
   pageKey?: string;
 }) {
   const [search, setSearch] = useState(false);
+  const [exploring, setExploring] = useState(false);
+  const launchFocus = useRef<HTMLElement | null>(null);
+  function openExplorer(trigger: HTMLButtonElement, close?: () => void) {
+    launchFocus.current = trigger;
+    close?.();
+    setSearch(false);
+    setExploring(true);
+  }
   const current = primary || navigation[0];
   const primaryLinks = (close?: () => void) => (
     <nav className="primary-links" aria-label="一级目录">
@@ -61,7 +72,7 @@ export function ContentLayout({
       ))}
     </nav>
   );
-  const tools = (
+  const tools = (close?: () => void) => (
     <div className="sidebar-tools">
       <button className="search-trigger" onClick={() => setSearch(true)}>
         <span>
@@ -69,7 +80,7 @@ export function ContentLayout({
         </span>
         <kbd>Ctrl K</kbd>
       </button>
-      <ThemeSwitcher />
+      <ThemeSwitcher onExplore={trigger => openExplorer(trigger, close)} />
     </div>
   );
   return (
@@ -85,7 +96,7 @@ export function ContentLayout({
         </Link>
         <div className="nav-label eyebrow">THE LIBRARY</div>
         {primaryLinks()}
-        {tools}
+        {tools()}
         <div className="sidebar-bottom">
           <span className="status-dot" /> A GARDEN IN PROGRESS
           <span className="sidebar-edition">
@@ -106,7 +117,7 @@ export function ContentLayout({
                 <h2 className="eyebrow">{current?.label || "CODEX"}</h2>
                 {secondaryLinks(close)}
               </div>
-              {tools}
+              {tools(close)}
             </>
           )}
         </NavigationDrawer>
@@ -162,7 +173,16 @@ export function ContentLayout({
           <span>↓</span>
         </div>
       </aside>
-      <CommandPalette open={search} setOpen={setSearch} />
+      <CommandPalette open={search} setOpen={setSearch} disabled={exploring} />
+      {exploring && (
+        <Suspense fallback={<div className="nebula-loading" role="status">正在进入星云…</div>}>
+          <NebulaExplorer onClose={() => setExploring(false)} onRestoreFocus={() => {
+            const target = launchFocus.current;
+            if (target?.isConnected) target.focus();
+            else document.querySelector<HTMLButtonElement>(".mobile-bar .drawer-trigger")?.focus();
+          }} />
+        </Suspense>
+      )}
     </div>
   );
 }

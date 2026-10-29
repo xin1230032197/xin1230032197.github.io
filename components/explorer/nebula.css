@@ -1,0 +1,94 @@
+
+    #codex-nebula{--sky-bg:#060b18;--sky-text:#e6edf8;--sky-muted:#a2b1cc;--sky-accent:#b0e4f3;--sky-line:#2c405e;--sky-panel:#0d1b30;--sky-tint:#193650;--sky-cloud:#4743a5;--sky-cyan:#16818e;--sky-warm:#e9c78e;position:relative;isolation:isolate;overflow:clip;min-width:0;background:var(--sky-bg);color:var(--sky-text);font:14px/1.6 "Microsoft YaHei","PingFang SC",sans-serif;color-scheme:dark}
+    #codex-nebula *{box-sizing:border-box}
+    #codex-nebula [hidden]{display:none!important}
+    #codex-nebula button,#codex-nebula input{font:inherit;color:inherit}
+    #codex-nebula button:disabled{opacity:.3;cursor:default}
+    #codex-nebula .m-atmosphere{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+    #codex-nebula .m-mist{position:absolute;inset:-10%;background:radial-gradient(ellipse at 65% 34%,color-mix(in srgb,var(--sky-cloud) 32%,transparent),transparent 45%),radial-gradient(ellipse at 22% 70%,color-mix(in srgb,var(--sky-cyan) 27%,transparent),transparent 45%),radial-gradient(ellipse at 85% 90%,color-mix(in srgb,var(--sky-cloud) 14%,transparent),transparent 50%);animation:m-drift 30s ease-in-out infinite alternate}
+    #codex-nebula .m-stars{width:100%;height:100%;position:absolute;color:var(--sky-text)}
+    #codex-nebula .m-stars circle{fill:currentColor}
+    #codex-nebula .m-hud{position:absolute;top:17px;left:20px;right:108px;display:flex;align-items:center;justify-content:space-between;gap:14px;z-index:20;pointer-events:none;opacity:.48;transition:opacity .2s}
+    #codex-nebula .m-hud:hover,#codex-nebula .m-hud:focus-within{opacity:1}
+    #codex-nebula .m-hud button{pointer-events:auto;min-width:36px;min-height:36px;border:1px solid transparent;background:transparent;border-radius:50%;font-size:20px;display:inline-grid;place-content:center;padding:4px;color:var(--sky-muted)}
+    #codex-nebula .m-hud button:hover{background:var(--sky-panel);border-color:var(--sky-line);color:var(--sky-accent)}
+    #codex-nebula .m-context{min-width:0;display:flex;align-items:center;gap:9px}
+    #codex-nebula .m-path{font-size:11px;color:var(--sky-muted);min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;pointer-events:none}
+    #codex-nebula .m-actions{display:flex;gap:6px;flex-shrink:0}
+    #codex-nebula .m-viewport{position:relative;height:720px;overflow:hidden;touch-action:none;user-select:none}
+    #codex-nebula .m-viewport[data-dragging="true"]{cursor:grabbing}
+    #codex-nebula .m-world{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+    #codex-nebula .m-wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+    #codex-nebula .m-wires path{fill:none;stroke:color-mix(in srgb,var(--sky-accent) 22%,transparent);stroke-width:1}
+    #codex-nebula .m-center{position:absolute;left:50%;top:50%;width:144px;height:144px;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;border-radius:50%;border:1px solid color-mix(in srgb,var(--sky-warm) 55%,transparent);background:radial-gradient(circle at 30% 22%,color-mix(in srgb,var(--sky-warm) 14%,var(--sky-panel)),var(--sky-panel) 75%);box-shadow:0 0 30px color-mix(in srgb,var(--sky-warm) 10%,transparent);z-index:3}
+    #codex-nebula .m-center:before{content:"";position:absolute;inset:-15px;border:1px solid color-mix(in srgb,var(--sky-warm) 12%,transparent);border-radius:50%;pointer-events:none}
+    #codex-nebula .m-center:disabled{opacity:1}
+    #codex-nebula .m-center small{color:var(--sky-warm);font-size:11px;margin-bottom:8px}
+    #codex-nebula .m-center strong{font:500 21px/1.5 "Songti SC",SimSun,serif;overflow-wrap:anywhere;max-width:100%}
+    #codex-nebula .m-bubble{--s:1;position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;width:124px;height:124px;padding:13px;border:1px solid color-mix(in srgb,var(--sky-accent) 35%,transparent);border-radius:50%;text-align:center;background:radial-gradient(circle at 30% 20%,color-mix(in srgb,var(--sky-accent) 14%,var(--sky-panel)),color-mix(in srgb,var(--sky-panel) 93%,transparent) 75%);box-shadow:inset 0 0 20px color-mix(in srgb,var(--sky-accent) 6%,transparent),0 0 25px color-mix(in srgb,var(--sky-accent) 6%,transparent);transform:translate(-50%,-50%) scale(var(--s));transition:transform .24s,border-color .24s,box-shadow .24s,opacity .18s;z-index:4}
+    #codex-nebula .m-bubble:before{content:"";position:absolute;inset:7px;border-radius:50%;border:1px solid color-mix(in srgb,var(--sky-accent) 7%,transparent);pointer-events:none}
+    #codex-nebula .m-bubble:after{content:"";position:absolute;right:18%;top:16%;width:4px;height:4px;background:var(--sky-accent);border-radius:50%;box-shadow:0 0 8px var(--sky-accent);opacity:.65}
+    #codex-nebula .m-bubble .m-kind{color:var(--sky-accent);font:11px/1.5 Consolas,monospace;margin-bottom:7px}
+    #codex-nebula .m-bubble strong{font-size:14px;line-height:1.5;font-weight:500;overflow-wrap:anywhere}
+    #codex-nebula .m-bubble small{color:var(--sky-muted);font-size:11px;margin-top:7px}
+    #codex-nebula .m-bubble:hover,#codex-nebula .m-bubble:focus-visible{--s:1.16;border-color:var(--sky-accent);box-shadow:0 0 38px color-mix(in srgb,var(--sky-accent) 22%,transparent);z-index:6}
+    #codex-nebula .m-bubble[data-found="false"]{opacity:.17}
+    #codex-nebula .m-bubble[data-current-hit="true"]{--s:1.16;border-color:var(--sky-warm);box-shadow:0 0 40px color-mix(in srgb,var(--sky-warm) 22%,transparent);z-index:7}
+    #codex-nebula mark{background:color-mix(in srgb,var(--sky-warm) 28%,var(--sky-panel));color:var(--sky-text);border-radius:2px;padding:0 2px}
+    #codex-nebula mark[data-current-hit="true"]{background:var(--sky-warm);color:var(--sky-bg)}
+    #codex-nebula .m-find{position:absolute;top:64px;right:22px;z-index:30;display:flex;align-items:center;gap:5px;width:min(350px,calc(100% - 36px));padding:8px 9px;border:1px solid var(--sky-line);border-radius:10px;background:var(--sky-panel);box-shadow:0 8px 28px color-mix(in srgb,var(--sky-bg) 70%,transparent)}
+    #codex-nebula .m-find input{min-width:0;flex:1;width:70px;border:0;background:transparent;padding:6px 3px;font-size:14px;color:var(--sky-text);outline-offset:3px}
+    #codex-nebula .m-find input::placeholder{color:var(--sky-muted)}
+    #codex-nebula .m-find-count{font-size:11px;color:var(--sky-muted);white-space:nowrap;min-width:28px;text-align:center}
+    #codex-nebula .m-find button{background:transparent;border:0;border-radius:5px;min-width:30px;min-height:32px;padding:4px;font-size:17px;color:var(--sky-muted)}
+    #codex-nebula .m-find button:hover{background:var(--sky-tint);color:var(--sky-text)}
+    #codex-nebula .m-toast{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);max-width:calc(100% - 40px);padding:9px 15px;border:1px solid color-mix(in srgb,var(--sky-line) 70%,transparent);border-radius:24px;background:color-mix(in srgb,var(--sky-panel) 85%,transparent);color:var(--sky-muted);font-size:11px;text-align:center;pointer-events:none;z-index:15;opacity:0;transition:opacity .2s;white-space:normal}
+    #codex-nebula .m-toast[data-show="true"]{opacity:1}
+    #codex-nebula .m-reader{min-height:700px;padding:94px 36px 50px}
+    #codex-nebula .m-reading-page{max-width:730px;margin:0 auto;border:1px solid color-mix(in srgb,var(--sky-line) 65%,transparent);border-radius:18px;background:color-mix(in srgb,var(--sky-panel) 92%,transparent);padding:30px 35px}
+    #codex-nebula .m-reader .m-reader-kind{font-size:11px;letter-spacing:.12em;color:var(--sky-accent);margin-bottom:10px}
+    #codex-nebula .m-reader h1{font:500 28px/1.5 "Songti SC",SimSun,serif;margin:0 0 22px}
+    #codex-nebula .m-own-note{position:absolute;bottom:28px;left:26px;max-width:260px;z-index:10;color:var(--sky-muted);font-size:11px}
+    #codex-nebula .m-own-note summary{opacity:.6;min-height:30px}
+    #codex-nebula .m-own-note[open]{padding:15px;border:1px solid var(--sky-line);border-radius:12px;background:var(--sky-panel)}
+    #codex-nebula .m-own-note p{font-size:12px;margin:8px 0}
+    #codex-nebula .m-own-note[open] summary{opacity:1}
+    #codex-nebula[data-busy="true"] .m-viewport{pointer-events:none}
+    @keyframes m-drift{from{transform:translate(-2%,0) rotate(-3deg)}to{transform:translate(2%,1.5%) rotate(3deg) scale(1.05)}}
+    @media(max-width:500px){#codex-nebula .m-viewport{height:660px}#codex-nebula .m-hud{left:12px;right:96px;gap:6px}#codex-nebula .m-path{max-width:95px}#codex-nebula .m-actions{gap:1px}#codex-nebula .m-center{width:104px;height:104px;padding:10px}#codex-nebula .m-center strong{font-size:18px}#codex-nebula .m-center small{margin-bottom:4px}#codex-nebula .m-bubble{width:100px;height:100px;padding:9px}#codex-nebula .m-bubble strong{font-size:13px}#codex-nebula .m-bubble .m-kind{margin-bottom:4px}#codex-nebula .m-bubble small{margin-top:4px}#codex-nebula .m-find{top:63px;right:12px;width:calc(100% - 24px)}#codex-nebula .m-reader{padding:93px 14px 30px;min-height:650px}#codex-nebula .m-reading-page{padding:22px 17px}#codex-nebula .m-own-note{left:15px;bottom:19px;max-width:180px}#codex-nebula .m-toast{bottom:58px;font-size:11px}#codex-nebula .m-find input{font-size:16px}}
+    @media(prefers-reduced-motion:reduce){#codex-nebula .m-mist{animation:none}#codex-nebula .m-bubble,#codex-nebula .m-toast{transition:none}}
+
+/* The approved immersive scene is isolated from the site's three reading themes. */
+.nebula-overlay { position: fixed; inset: 0; z-index: 149; background: #060b18; }
+#codex-nebula {
+  position: fixed; inset: 0; width: 100%; height: 100dvh; z-index: 150;
+  margin: 0; border: 0; padding: 0; outline: 0; min-height: 0;
+  --bg: #060b18; --surface: #0d1b30; --text: #e6edf8; --muted: #a2b1cc;
+  --accent: #b0e4f3; --metal: #b0e4f3; --border: #2c405e;
+  --heading: "Source Han Serif SC", "Songti SC", SimSun, serif;
+  --prose: "Source Han Serif SC", "Songti SC", SimSun, serif;
+  --ui: "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+}
+#codex-nebula .m-hud { right: 20px; }
+#codex-nebula .m-viewport { height: 100%; outline: 0; }
+#codex-nebula .m-bubble strong, #codex-nebula .m-center strong {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+  overflow: hidden; max-width: 100%;
+}
+#codex-nebula .m-reader { height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; outline: 0; }
+#codex-nebula .m-reading-page { min-width: 0; }
+#codex-nebula .article-body { font: 16px/2 var(--prose); color: var(--sky-text); }
+#codex-nebula .article-body p { overflow-wrap: anywhere; }
+#codex-nebula .m-own-note { padding: 8px 12px; border: 1px solid var(--sky-line); border-radius: 18px; background: var(--sky-panel); opacity: .65; }
+#codex-nebula .m-own-note:hover { opacity: 1; }
+#codex-nebula .m-empty { position: absolute; bottom: 22%; left: 20px; right: 20px; text-align: center; color: var(--sky-muted); font-size: 12px; }
+#codex-nebula button { cursor: pointer; }
+#codex-nebula button:disabled { cursor: default; }
+#codex-nebula button:focus-visible { outline: 1px solid var(--sky-accent); outline-offset: 5px; }
+@media(max-width:500px) {
+  #codex-nebula .m-hud { left: 10px; right: 10px; }
+  #codex-nebula .m-path { max-width: calc(100vw - 145px); }
+  #codex-nebula .m-viewport { height: 100%; }
+  #codex-nebula .m-reader { min-height: 0; padding: 90px 12px 24px; }
+  #codex-nebula .article-body { font-size: 15px; }
+}

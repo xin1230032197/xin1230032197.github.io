@@ -17,15 +17,17 @@ function Highlight({ text, query }: { text: string; query: string }) {
 export function CommandPalette({
   open,
   setOpen,
+  disabled = false,
 }: {
   open: boolean;
   setOpen: (v: boolean) => void;
+  disabled?: boolean;
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      if (!disabled && (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setQuery("");
         setOpen(!open);
@@ -33,7 +35,7 @@ export function CommandPalette({
     };
     document.addEventListener("keydown", key);
     return () => document.removeEventListener("keydown", key);
-  }, [open, setOpen]);
+  }, [open, setOpen, disabled]);
   const results = searchContent(entries, query);
   return (
     <Dialog.Root

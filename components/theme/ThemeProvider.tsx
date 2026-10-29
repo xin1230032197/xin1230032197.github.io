@@ -58,7 +58,7 @@ function subscribeTheme(notify: () => void) {
   });
   return () => observer.disconnect();
 }
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ onExplore }: { onExplore?: (trigger: HTMLButtonElement) => void }) {
   const { theme, changeTheme } = useContext(ThemeContext);
   return (
     <div className="theme-switcher">
@@ -81,6 +81,11 @@ export function ThemeSwitcher() {
           ↻ Random
         </button>
       </div>
+      {onExplore && (
+        <button className="nebula-trigger" onClick={event => onExplore(event.currentTarget)}>
+          <span aria-hidden="true">✧</span> 星云漫游 <span aria-hidden="true">↗</span>
+        </button>
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import type { Plugin } from "vite";
 import { readContentSource } from "./content-source";
 import { buildContent } from "../lib/content-model";
 import { buildKnowledge } from "../lib/knowledge";
+import { buildExplorer } from "../lib/explorer-model.ts";
 import type { ContentIndex } from "../lib/content-types";
 
 /** Build-time filesystem ingestion; published Workers and browsers never read files. */
@@ -16,6 +17,7 @@ export function codexContent(): Plugin {
     "virtual:codex-navigation",
     "virtual:codex-search",
     "virtual:codex-knowledge",
+    "virtual:codex-explorer",
   ];
   const getIndex = () => {
     if (!cached) {
@@ -46,6 +48,8 @@ export function codexContent(): Plugin {
     load(id) {
       if (!ids.some((name) => id === "\0" + name)) return;
       const index = getIndex();
+      if (id === "\0virtual:codex-explorer")
+        return `export default ${JSON.stringify(buildExplorer(index))};`;
       if (id === "\0virtual:codex-navigation")
         return `export default ${JSON.stringify(index.navigation)};`;
       if (id === "\0virtual:codex-search")

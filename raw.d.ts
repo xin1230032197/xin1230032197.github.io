@@ -18,3 +18,7 @@ declare module "virtual:codex-knowledge" {
   const value: import("./lib/knowledge-types").KnowledgeIndex;
   export default value;
 }
+declare module "virtual:codex-explorer" {
+  const value: import("./lib/explorer-types").ExplorerNode;
+  export default value;
+}

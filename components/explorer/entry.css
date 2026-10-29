@@ -1,0 +1,9 @@
+.nebula-trigger {
+  display: flex; align-items: center; gap: 9px; width: 100%;
+  color: var(--muted); font: inherit; font-size: 12px; text-align: left;
+  padding: 10px 0 2px; background: transparent; border: 0; cursor: pointer;
+}
+.nebula-trigger span:last-child { margin-left: auto; opacity: .55; }
+.nebula-trigger:hover { color: var(--accent); }
+.nebula-trigger:focus-visible { outline: 1px solid var(--accent); outline-offset: 5px; }
+.nebula-loading { position: fixed; inset: 0; z-index: 150; display: grid; place-content: center; background: #060b18; color: #a2b1cc; font-size: 14px; }
