@@ -32,5 +32,19 @@
         "order": 1000
       }
     ]
+  },
+  {
+    "id": "408-bi-ji-os",
+    "slug": "408-bi-ji-os",
+    "title": "408笔记-OS",
+    "order": 30,
+    "children": [
+      {
+        "id": "di-yi-zhang-xu-lun",
+        "slug": "di-yi-zhang-xu-lun",
+        "title": "第一章 绪论",
+        "order": 10
+      }
+    ]
   }
 ]
