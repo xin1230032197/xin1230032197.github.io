@@ -46,5 +46,19 @@
         "order": 10
       }
     ]
+  },
+  {
+    "id": "ai-infra",
+    "slug": "ai-infra",
+    "title": "ai infra",
+    "order": 1000,
+    "children": [
+      {
+        "id": "ru-men-zhun-bei",
+        "slug": "ru-men-zhun-bei",
+        "title": "入门准备",
+        "order": 1000
+      }
+    ]
   }
 ]

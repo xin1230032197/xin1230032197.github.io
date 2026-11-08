@@ -2,7 +2,7 @@
 title: 27计划
 description: 开始吧 在26年的11月
 date: 2026-10-11
-updated: 2026-11-06
+updated: 2026-11-08
 tags: []
 aliases: []
 order: 0
@@ -44,4 +44,9 @@ order: 0
 然后回归教材
 
 还能怎么样我想不到了姑且如此
+
+## and so on
+- Frist 打算先去入门 infra 初步
+- second 入门gcc 初步
+- tried 洛谷刷掉所有橙色黄色题目
 - - -
