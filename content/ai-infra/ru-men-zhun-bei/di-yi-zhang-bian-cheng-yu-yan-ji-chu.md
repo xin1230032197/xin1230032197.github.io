@@ -2,7 +2,7 @@
 title: 第一章 编程语言基础
 description: ""
 date: 2026-11-08
-updated: 2026-11-09
+updated: 2026-11-10
 tags: []
 aliases: []
 order: 0
@@ -73,6 +73,25 @@ greet()
     - ![image.png](/images/articles/di-yi-zhang-bian-cheng-yu-yan-ji-chu/image-2.png)
     - 装饰器也可以带括号，当带括号的时候先调用他取得装饰器，当然要看文档观察参数作用
 
+- 关于实例方法类方法还有静态函数
+  - 关于*self*对象 *cls*类 是约定俗成的参数名字
+  - 实例方法操作具体对象 类方法接受类本身 静态方法只传参数
+  - ![image.png](/images/articles/di-yi-zhang-bian-cheng-yu-yan-ji-chu/image-3.png)
+- 关于next（）
+
+  -  ![image.png](/images/articles/di-yi-zhang-bian-cheng-yu-yan-ji-chu/image-4.png)
+- 关于迭代器
+
+  - 一共能够反复用于next（）的对象，靠yield给出值
+  - 实际上也是for的来源，再容器对象上面调用iter()迭代器 然后不断用__next__去进行调用，到最后用StopIteration异常结束
+  - 所以可以给类去添加一共迭代器行为
+
+- 生成器
+  - 在普通的def函数里面写yield 就是生成器函数 调用之后得到一共生成器对象
+  - 之后的每次next取值 函数才执行直到遇见下一个yield 
+- 其中如果把生成器转化城其他的内容会重新物化元素导致性能变差
+
+- 生成器一般只能消费一次
 
 - - -
 1. 名字绑定对象，赋值建立引用
@@ -114,4 +133,8 @@ deep=copy.deepcopy(src)#深拷贝
 6. 类数据模型与协议
     -  特殊方法![image.png](/images/articles/di-yi-zhang-bian-cheng-yu-yan-ji-chu/image.png)
         -  当然，我是当成c++里面重载运算符一样去认为的  
-    - 实例方法
+7. with自动关闭包
+
+8. 异常处理原则：1. 只捕获具体异常 2. 能恢复才捕获 3.![image.png](/images/articles/di-yi-zhang-bian-cheng-yu-yan-ji-chu/image-5.png)
+
+## PYTHON并发性能分析
