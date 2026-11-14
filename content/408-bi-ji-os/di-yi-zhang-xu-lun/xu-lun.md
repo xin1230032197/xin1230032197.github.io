@@ -2,7 +2,7 @@
 title: 绪论
 description: ""
 date: 2026-10-12
-updated: 2026-11-07
+updated: 2026-11-14
 tags: []
 aliases: []
 order: 0
@@ -80,6 +80,7 @@ order: 0
             - ![870ef7061ea0674805fe23d150a7db96.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-5d3e6af6ab0f0db99c94e1525234bfcc642461e1f01a2c85603a3f20e389d139.png)
             - 例子：IO中断 时钟中断
         - 分类总图![883cad3ba7a74042e4cb60a3f5deb728.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-197ce1cea193eef7986ba509fc619eae6fe763087ca6f82720180e23d04dda7f.png)
+        - 实际上这里分类的话内分段分成自愿中断和强迫中断，比如说指令中断主动自愿，强迫中断分成硬件故障和软件中断。 外中断则是外设请求or人工干预
         - 基本原理：![10cd071235e061edfd2f2e668b177a33.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-a8aebf0e6e74daaca31e987eb55c49bf65fd00cd143b60a34c57014e48aa52cd.png)
 ## 系统调用
   - 系统第哦啊用简单介绍 ![327df37697425993c29b3a079f87fad7.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-47aa958ddc8524c1b8979da7e67efba4c0758da9278531aca059d4dce651fbe7.png)
@@ -97,15 +98,71 @@ order: 0
 ## OS的不同结构类型
 
   - 分层结构![3fb85a1e6e442d68362e9e7b70e882ad.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-6910bf2c40099b27b5cbb05eb5602a2997a35d48b8b5b823e8131d377808c1f1.png)
+    1. 便于系统提奥什验证 易于扩充维护
+    2. 合理定义层级困难 效率差需要自底向上 
   - 模块化![a3110a3ea1902f4e1eef26a0c878a8f7.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-e1efb3b4b64239eb8ad16324b033b5ad1d023d77e52f2431a3dc339b1443a7b2.png)
+    1. 划分的模块太小或导致系统过于混乱 太大会增加模块内部复杂性
+    2. 考察独立性，也就是模块内部各部分之间的密切程度越高越好 耦合度 模块间的密切程度越低越好 感觉和聚类分析的定义差不多
+  - 宏内核微内核
+    ![image.png](/images/articles/xu-lun/image-2.png)
+    1. 宏内核各个管理模块共享信息，性能优势巨大
+    2. 微内核技术就是将一些非核心的功能迁移到用户空间，好处就是方便扩展系统内核不用去做改动
+  - 微内核
+    - 概念
+      - 把不需要内核态执行的功能移动到用户态执行降低内核的设计复杂行。移动出来的OS分成若干程序执行独立 交互借助于微内核进行通信
+     
+    - 结构   
+      - 微内核通常包含：与硬件紧密相关的部分 一些基本的功能 客户和服务器之间的通信
+     
+    - 基本功能
+   
+      - 进程线程管理
+      - 低级存储器管理
+      - 中断陷入处理
+    - 特点
+   
+      - 扩展性和灵活性
+      - 可靠性和安全性
+      - 可移植性
+      - 分布式计算
+
+
+        
 - 外核 暂时不列入
-  - 总结![dab191d80f3ff23d5acb8e53503a6cf2.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-0098a11a4044e134f7e7e8a2873b5bd8f42fb72ac803ceb627990f6b855d70b0.png)
+  - 对资源进行划分？为每个用户分配整个资源的自己，优点是减少而资源的映射曾 并且 分离了多道程序与用户操作系统代码
+- 总结![dab191d80f3ff23d5acb8e53503a6cf2.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-0098a11a4044e134f7e7e8a2873b5bd8f42fb72ac803ceb627990f6b855d70b0.png)
 - 操作系统引导
     - ![beee6f465c2d44beafefe07d23cf4048.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-dd208ec7fad26bc081cd99064725522b3e457ff734dc1b67d14bf2df77b4203f.png)
+    - 复述一下王道书内容
+      1. 激活CPU，通过读取ROM区boot成俗，执行BIOS指令
+      2. BIOS构建中断向量表，然后POST进行通电自检，检查自己是否出现故障。出现故障的话就中断，这也是为什么前面要构建
+      3. 加载OS的硬盘，BIOS读取 Boot Sequence把控制权交给启动顺序第一位的存储设备，然后CPU把该设备引导扇区的内容加载到内存中
+      4. 加载主引导记录MBR，目的是告诉CPU去哪儿硬盘的哪儿找OS
+      5. 扫描硬盘分区加载硬盘活动分区，找到硬盘活动分区之后加载移交控制权
+      6. 加载分区引导记录PBR 用于寻找激活分区根目录下用于引导操作系统的程序
+      7. 加载启动管理器 最后加载OS把OS加载到内存运行 
 - 虚拟机
     - 传统计算机![4a0ce046ced48dc0deacf4005cdae0bc.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-c241ee100c826d7ec1b789c465b284dc6b0acae3c1325a1e240a383244225c3d.png)
     - ![4323891123476897b976a64864f8f4cc.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-a9ec1e40859d893be161b1bd799703409940f0faa595c801dd582b3d96ba81b2.png)
     - ![7c59622b44417e466494033439e713e8.png](/images/articles/import-408-bi-ji-os-di-yi-zhang-xu-lun-9eaf3dad/img-c781b68afb7535b1d3f29137a449d35213b052594dd67ca90cfd11a36b20a822.png)
 
 - 做题补充
-  -
+  - 常见的特权指令：IO指令，开关中断指令，修改PSW指令
+  - 访管指令：用户调用的指令，所以不是特权指令 trap 原理上是INt 一个特殊值
+  - 处理终端的时候，硬件负责保存**PC程序计数器 and PSW程序状态字**OS保存**除了硬件意外的还需要使用的不可恢复的内容**
+  - ![image.png](/images/articles/xu-lun/image.png)
+  - 这很奇怪吧 但是保护屏蔽字就是OS的事情
+  - 时钟部分：硬件定时器到时
+      ↓
+产生时钟中断
+      ↓
+CPU 响应中断，进入内核
+      ↓
+时钟中断服务程序执行：
+更新时间、统计 CPU 使用时间、扣减剩余时间片
+      ↓
+检查是否需要调度
+> 不是，这谁懂啊
+-
+  - CPU从用户态转化成内核态，是硬件在内核处理程序执行之前就已经状态切换完了
+> 不是，这玩意也没学过啊
