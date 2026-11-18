@@ -41,6 +41,7 @@ const frontmatter = z
   .object({
     title,
     description: z.string().default(""),
+    cover: z.string().trim().optional(),
     date,
     updated: date.optional(),
     tags: z.array(title).default([]),

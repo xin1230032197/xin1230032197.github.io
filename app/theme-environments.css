@@ -22,6 +22,11 @@
   inset: 0;
   pointer-events: none;
 }
+[data-theme="ink"] :is(.zen-environment, .aurora-environment),
+[data-theme="zen"] :is(.aurora-environment, .ink-environment),
+[data-theme="aurora"] :is(.ink-environment, .zen-environment) {
+  display: none;
+}
 .theme-environment > * {
   animation-play-state: paused !important;
 }
@@ -204,18 +209,18 @@
 }
 /* ZEN: paper, mineral pigment, fragments of gold. Warm light and dilute pigment drift over anchored paper. */
 [data-theme="zen"] {
-  --bg: #f2e9d8;
-  --surface: #f6eddd;
-  --text: #302d25;
-  --muted: #6c6658;
-  --accent: #536b4b;
-  --faint: #8b806a;
-  --border: rgba(158, 123, 63, 0.29);
-  --metal: #9e763c;
-  --metal-dim: rgba(169, 126, 55, 0.3);
-  --hover: rgba(186, 151, 80, 0.095);
-  --panel-tint: rgba(250, 243, 224, 0.27);
-  --reading-tint: rgba(250, 242, 224, 0.48);
+  --bg: #f6f3eb;
+  --surface: #faf8f1;
+  --text: #282f29;
+  --muted: #596157;
+  --accent: #365b48;
+  --faint: #67695d;
+  --border: rgba(69, 77, 61, 0.19);
+  --metal: #75613c;
+  --metal-dim: rgba(122, 103, 63, 0.25);
+  --hover: rgba(75, 95, 72, 0.07);
+  --panel-tint: rgba(246, 243, 235, 0.60);
+  --reading-tint: rgba(248, 246, 238, 0.82);
 }
 [data-theme="zen"] .zen-environment {
   opacity: 1;
@@ -226,16 +231,16 @@
   display: none;
 }
 .zen-base {
-  background: #f2e9d8;
+  background: var(--bg);
 }
 .zen-natural-light {
   background:
-    radial-gradient(ellipse at 44% 18%, #fff9e5e0, transparent 65%),
-    linear-gradient(108deg, #d8c8a638, transparent 29%, #f4dfb421);
+    radial-gradient(ellipse at 38% 18%, #fffdf4bf, transparent 65%),
+    linear-gradient(110deg, #d2d8cd42, transparent 40%, #eedcbb30);
 }
 .zen-paper-fiber {
   background: url("/textures/washi-fibers.webp") 0 0 / 400px 400px repeat;
-  opacity: 0.57;
+  opacity: 0.24;
   mix-blend-mode: multiply;
 }
 .zen-ink-landscape {
@@ -247,43 +252,8 @@
   background: url("/theme-assets/zen-ink-wash.webp") right bottom / cover
     no-repeat;
   mix-blend-mode: multiply;
-  opacity: 0.84;
+  opacity: 0.55;
   mask-image: linear-gradient(90deg, transparent, #000 42%);
-}
-.zen-edge-wash {
-  position: absolute;
-  width: 440px;
-  height: 580px;
-  left: -220px;
-  bottom: -100px;
-  background: url("/theme-assets/zen-ink-wash.webp") 70% 100% / auto 100%
-    no-repeat;
-  mix-blend-mode: multiply;
-  opacity: 0.54;
-  mask-image: linear-gradient(0deg, #000 25%, transparent);
-}
-.zen-gold-leaf {
-  background-image: url("/textures/gold-leaf.webp");
-  background-size: 250px 420px;
-  opacity: 0.26;
-  mask-image: linear-gradient(
-    90deg,
-    #000,
-    transparent 7%,
-    transparent 93%,
-    #000
-  );
-}
-.zen-binding-lines {
-  inset: 18px 28px;
-  border: 1px solid #b89d6644;
-  box-shadow: inset 0 0 0 5px #efe0bd2b;
-  opacity: 0.75;
-}
-.zen-paper-grain {
-  background: url("/textures/archive-grain.webp") 0 0 / 200px 200px;
-  opacity: 0.085;
-  mix-blend-mode: multiply;
 }
 [data-theme="zen"] .wordmark {
   color: #272921;
@@ -315,16 +285,6 @@
     height: 53%;
     opacity: 0.27;
   }
-  .zen-edge-wash {
-    display: none;
-  }
-  .zen-binding-lines {
-    inset: 9px;
-    opacity: 0.35;
-  }
-  .zen-gold-leaf {
-    opacity: 0.24;
-  }
 }
 
 /* Feather the local material boundaries into the procedural paper. */
@@ -333,28 +293,6 @@
     linear-gradient(90deg, transparent, #000 42%),
     linear-gradient(180deg, transparent, #000 30%);
   mask-composite: intersect;
-}
-.zen-edge-wash {
-  mask-image: radial-gradient(ellipse at 0 100%, #000 28%, transparent 73%);
-}
-.zen-gold-corner {
-  position: absolute;
-  top: -25px;
-  right: -25px;
-  width: 420px;
-  height: 350px;
-  background: url("/theme-assets/zen-ink-wash.webp") right top / auto 520px
-    no-repeat;
-  mix-blend-mode: multiply;
-  opacity: 0.65;
-  mask-image: radial-gradient(ellipse at 100% 0, #000 22%, transparent 73%);
-}
-@media (max-width: 720px) {
-  .zen-gold-corner {
-    width: 220px;
-    height: 260px;
-    opacity: 0.3;
-  }
 }
 
 /* AURORA: independent light ribbons, celestial terrain, and an orbital atlas. */
@@ -548,20 +486,6 @@
   mix-blend-mode: multiply;
   animation: ink-wash-flow 24s ease-in-out infinite alternate;
 }
-.zen-light-sweep {
-  inset: -18%;
-  background: linear-gradient(
-    117deg,
-    transparent 37%,
-    #fffbed70 49%,
-    #fff5d64d 55%,
-    transparent 68%
-  );
-  animation: washi-light-flow 22s ease-in-out infinite alternate;
-}
-.zen-gold-leaf {
-  animation: gold-breath 33s ease-in-out infinite alternate;
-}
 .aurora-space-haze {
   inset: -8%;
   animation: cosmic-haze 54s ease-in-out infinite alternate;
@@ -594,19 +518,6 @@
     opacity: 0.55;
   }
 }
-@keyframes washi-light-flow {
-  from {
-    transform: translate3d(-12%, -2%, 0) rotate(-3deg);
-  }
-  to {
-    transform: translate3d(12%, 3%, 0) rotate(3deg);
-  }
-}
-@keyframes gold-breath {
-  to {
-    opacity: 0.17;
-  }
-}
 @keyframes cosmic-haze {
   to {
     transform: translate3d(-4%, 3%, 0) scale(1.07);
@@ -625,9 +536,6 @@
 }
 .zen-flowing-wash {
   animation-delay: -22s;
-}
-.zen-light-sweep {
-  animation-delay: -9s;
 }
 .aurora-ribbons {
   animation-delay: -17s;
@@ -649,12 +557,18 @@
 .theme-environment {
   isolation: isolate;
 }
+/* The home cover carries the illustration; let the ambient light continue behind it. */
+body:has(.home-page, .reading-page) :is(.ink-library-vignette, .aurora-celestial-landscape) {
+  display: none;
+}
+body:has(.home-page, .reading-page) .zen-ink-landscape {
+  opacity: 0.15;
+}
 .aurora-ribbons {
   background: url("/textures/aurora-ribbons.webp") center / cover no-repeat;
 }
 [data-theme="ink"] .ink-window-light,
 [data-theme="ink"] .ink-dust,
-[data-theme="zen"] .zen-light-sweep,
 [data-theme="aurora"] .aurora-ribbons {
   will-change: transform, opacity;
 }
@@ -727,26 +641,4 @@
     opacity: 0.6;
   }
 }
-
-/* A slow drift across the paper, with sparse glints at the margins. */
-.zen-floating-gold {
-  inset: -10% 0;
-  background-image:
-    radial-gradient(1.6px 1.6px at 8% 20%, #b18b4dc9 40%, transparent),
-    radial-gradient(1px 1px at 14% 64%, #ad8544aa 40%, transparent),
-    radial-gradient(2px 2px at 85% 31%, #b59152bb 30%, transparent),
-    radial-gradient(1.4px 1.4px at 93% 52%, #ae803bbb 40%, transparent),
-    radial-gradient(1px 1px at 78% 73%, #bb985cbb 40%, transparent),
-    radial-gradient(1.5px 1.5px at 89% 89%, #ba924fcc 40%, transparent),
-    radial-gradient(1px 1px at 5% 87%, #b79052aa 40%, transparent);
-  animation: washi-gold-drift 27s linear infinite;
-  animation-delay: -11s;
-}
-[data-theme=zen] .zen-flowing-wash,
-[data-theme=zen] .zen-floating-gold { will-change: transform, opacity; }
-@keyframes washi-gold-drift {
-  0% { transform: translate3d(-30px, 40px, 0); opacity: 0; }
-  20% { opacity: .75; }
-  80% { opacity: .7; }
-  100% { transform: translate3d(60px, -90px, 0); opacity: 0; }
-}
+[data-theme=zen] .zen-flowing-wash { will-change: transform, opacity; }

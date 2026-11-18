@@ -76,7 +76,7 @@ export function ContentLayout({
     <div className="sidebar-tools">
       <button className="search-trigger" onClick={() => setSearch(true)}>
         <span>
-          ⌕ <span>Search</span>
+          ⌕ <span>搜索</span>
         </span>
         <kbd>Ctrl K</kbd>
       </button>
@@ -84,7 +84,7 @@ export function ContentLayout({
     </div>
   );
   return (
-    <div className={`codex-layout${article ? " reading-page" : ""}`}>
+    <div className={`codex-layout${article ? " reading-page" : ""}${pageKey === "home" ? " home-page" : ""}`}>
       <a className="skip-link" href="#main-content">
         跳转到正文
       </a>
@@ -94,15 +94,9 @@ export function ContentLayout({
           <StarOrnament className="wordmark-ornament" />
           <span>PERSONAL CODEX</span>
         </Link>
-        <div className="nav-label eyebrow">THE LIBRARY</div>
+        <div className="nav-label eyebrow">目录</div>
         {primaryLinks()}
         {tools()}
-        <div className="sidebar-bottom">
-          <span className="status-dot" /> A GARDEN IN PROGRESS
-          <span className="sidebar-edition">
-            EST. 2026<span>↳ 一页一世界</span>
-          </span>
-        </div>
       </aside>
       <header className="mobile-bar">
         <NavigationDrawer title="目录 / LIBRARY" trigger="☰ 目录">
@@ -153,25 +147,22 @@ export function ContentLayout({
         {children}
       </main>
       <aside className="secondary-sidebar">
-        <div className="right-running-head meta">
-          FIELD NOTES <span>↙</span>
-        </div>
-        <div className="secondary-heading">
-          <span className="eyebrow">{current?.label || "CODEX"}</span>
-          <span className="meta">
-            {String(current?.children.length || 0).padStart(2, "0")}
-          </span>
-        </div>
-        {secondaryLinks()}
+        {pageKey !== "home" && (
+          <>
+            <div className="secondary-heading">
+              <span className="eyebrow">{current?.title || "分类"}</span>
+              <span className="meta">
+                {String(current?.children.length || 0).padStart(2, "0")}
+              </span>
+            </div>
+            {secondaryLinks()}
+          </>
+        )}
         <TableOfContents
           contentKey={
             pageKey || article?.id || secondary?.href || primary?.href || "home"
           }
         />
-        <div className="right-bottom meta">
-          {article ? "READ SLOWLY." : "STAY CURIOUS."}
-          <span>↓</span>
-        </div>
       </aside>
       <CommandPalette open={search} setOpen={setSearch} disabled={exploring} />
       {exploring && (

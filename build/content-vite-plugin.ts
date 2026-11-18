@@ -12,12 +12,15 @@ export function codexContent(): Plugin {
   let cached: ContentIndex | undefined;
   let knowledge: ReturnType<typeof buildKnowledge> | undefined;
   let development = false;
+  let images: Promise<Awaited<ReturnType<typeof import("./article-images.mjs")["buildArticleImages"]>>> | undefined;
+  const getImages = () => images ||= import("./article-images.mjs").then(module => module.buildArticleImages(root));
   const ids = [
     "virtual:codex-content",
     "virtual:codex-navigation",
     "virtual:codex-search",
     "virtual:codex-knowledge",
     "virtual:codex-explorer",
+    "virtual:codex-images",
   ];
   const getIndex = () => {
     if (!cached) {
@@ -47,6 +50,8 @@ export function codexContent(): Plugin {
     },
     load(id) {
       if (!ids.some((name) => id === "\0" + name)) return;
+      if (id === "\0virtual:codex-images")
+        return development ? "export default {};" : getImages().then(result => `export default ${JSON.stringify(result.index)};`);
       const index = getIndex();
       if (id === "\0virtual:codex-explorer")
         return `export default ${JSON.stringify(buildExplorer(index))};`;
@@ -57,6 +62,13 @@ export function codexContent(): Plugin {
       if (id === "\0virtual:codex-knowledge")
         return `export default JSON.parse(${JSON.stringify(JSON.stringify({ ...knowledge, searchEntries: [] }))});`;
       return `const tree = ${JSON.stringify(index.tree)}; export default {tree, navigation:${JSON.stringify(index.navigation)}, articles:tree.flatMap(p=>p.children.flatMap(s=>s.articles)), searchEntries:[], routes:${JSON.stringify(index.routes)}};`;
+    },
+    async generateBundle() {
+      if (development || this.environment.name !== "client") return;
+      const result = await getImages();
+      for (const [fileName, source] of result.assets) this.emitFile({ type: "asset", fileName, source });
+      const { originalBytes, optimizedBytes, originals } = result.stats;
+      console.log(`[Article images] ${originals} images: ${(originalBytes / 1048576).toFixed(1)} MB → ${(optimizedBytes / 1048576).toFixed(1)} MB at full resolution; responsive sizes generated.`);
     },
     configureServer(server) {
       const contentRoot = path.join(root, "content");

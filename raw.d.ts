@@ -22,3 +22,7 @@ declare module "virtual:codex-explorer" {
   const value: import("./lib/explorer-types").ExplorerNode;
   export default value;
 }
+declare module "virtual:codex-images" {
+  const value: Record<string, import("./lib/article-image").ArticleImage>;
+  export default value;
+}

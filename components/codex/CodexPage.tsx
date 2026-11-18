@@ -17,64 +17,26 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
     .slice(0, 4);
   return (
     <ContentLayout
+      pageKey={primary ? undefined : "home"}
       primary={primaryNavigation}
       secondary={secondaryNavigation}
       article={article ? { id: article.id } : undefined}
     >
-      <div className="page-running-head" aria-hidden="true" />
+      {primary && !article && <div className="page-running-head" aria-hidden="true" />}
       {!primary ? (
         <>
           <header className="preface-header" id="preface">
-            <p className="eyebrow">
-              <span className="accent">序 / 00</span>
-              <span>AN OPEN-ENDED NOTEBOOK</span>
-            </p>
-            <h1>
-              {site.name}
-              <span className="name-period">.</span>
-            </h1>
-            <p className="discipline">Computer Science / AI Infrastructure</p>
-            <p className="opening-lines">
-              I build things,
-              <br />
-              study systems,
-              <br />
-              and write down what I learn.
-            </p>
-            <p className="chinese-intro">
-              一座持续生长的私人图书馆。
-              <br />
-              记录所学、所想，以及沿途的风景。
-            </p>
+            <h1>{site.name}</h1>
+            <p className="preface-subtitle">个人笔记</p>
           </header>
-          <section className="currently" id="currently">
-            <h2 className="eyebrow">CURRENTLY</h2>
-            <div>
-              {!site.interests.length && <p>目录尚未建立。</p>}
-              {site.interests.map((i) => (
-                <Link key={i.href} href={i.href}>
-                  {i.title}
-                  <span>↗</span>
-                </Link>
-              ))}
-            </div>
-            <p>
-              保持好奇，缓慢生长。
-              <span className="growth-line" />
-            </p>
-          </section>
           <section className="recent-section" id="recent">
             <div className="section-heading">
-              <h2 className="eyebrow">RECENTLY UPDATED</h2>
-              <span className="meta">最近翻动的几页</span>
+              <h2>最近更新</h2>
             </div>
             <div className="article-list">
               {!recent.length && <p className="collection-description">还没有发布的文章。</p>}
-              {recent.map((a, i) => (
+              {recent.map((a) => (
                 <Link className="article-row" key={a.id} href={articleHref(a)}>
-                  <span className="row-number">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
                   <span className="row-main">
                     <strong>{a.title}</strong>
                     <small>
@@ -83,30 +45,23 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
                     </small>
                   </span>
                   <time dateTime={a.updated}>
-                    {formatDate(a.updated).slice(0, 6)}
+                    {a.updated.slice(5).replace("-", ".")}
                   </time>
-                  <span className="row-arrow">↗</span>
+                  <span className="row-arrow" aria-hidden="true">→</span>
                 </Link>
               ))}
             </div>
           </section>
           <section className="index-section" id="index">
             <div className="section-heading">
-              <h2 className="eyebrow">INDEX</h2>
-              <span className="meta">
-                书架 / {String(navigation.length).padStart(2, "0")}
-              </span>
+              <h2>书架</h2>
             </div>
             {!navigation.length && <p className="collection-description">暂时没有目录。</p>}
-            {navigation.map((p, i) => (
+            {navigation.map((p) => (
               <Link href={`/${p.slug}`} key={p.id} className="index-row">
-                <span className="row-number">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
                 <span>{p.title}</span>
                 <span className="index-dots" />
-                <span className="meta">{p.label}</span>
-                <span className="row-arrow">↗</span>
+                <span className="meta">{articlesIn(p.id).length} 篇</span>
               </Link>
             ))}
           </section>
@@ -114,7 +69,6 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
       ) : article ? (
         <Article
           article={article}
-          primary={primary}
           secondary={secondary!}
           breadcrumbs={breadcrumbs}
         />
@@ -207,12 +161,6 @@ export function CodexPage({ path = [] }: { path?: string[] }) {
           )}
         </>
       )}
-      <footer className="page-footer">
-        <span>不是终点，是不断续写的页。</span>
-        <span>
-          {site.name} / CODEX <i>✳</i>
-        </span>
-      </footer>
     </ContentLayout>
   );
 }

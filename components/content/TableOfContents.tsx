@@ -93,9 +93,9 @@ export function TableOfContents({
   const baseLevel = Math.min(...headings.map((h) => h.level));
   return (
     <nav className="toc" aria-label="本页目录">
-      <details key={contentKey} className="toc-disclosure" open={onNavigate ? true : undefined}>
+      <details key={contentKey} className="toc-disclosure" open={onNavigate || contentKey === "home" ? true : undefined}>
         <summary className="toc-toggle" aria-controls={listId}>
-          <span className="eyebrow">文章目录</span>
+          <span className="eyebrow">{contentKey === "home" ? "本页目录" : "文章目录"}</span>
           <span className="toc-count">{headings.length} 节</span>
           <span className="toc-chevron" aria-hidden="true">⌄</span>
         </summary>

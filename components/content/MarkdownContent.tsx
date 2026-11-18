@@ -10,6 +10,8 @@ import { CodeBlock } from "./CodeBlock";
 import { MarkdownTable } from "./MarkdownTable";
 import knowledge from "virtual:codex-knowledge";
 import { remarkWikiLinks } from "@/lib/wiki-links";
+import images from "virtual:codex-images";
+import { articleImage } from "@/lib/article-image";
 
 function Heading({
   level,
@@ -49,6 +51,11 @@ export function MarkdownContent({ body }: { body: string }) {
       }}
       rehypePlugins={[rehypeKatex, rehypeSlug, markdownExperience]}
       components={{
+        img: ({ node: _node, ...props }) => {
+          void _node;
+          const optimized = articleImage(images, typeof props.src === "string" ? props.src : "");
+          return createElement("img", { ...props, ...optimized, loading: "lazy", decoding: "async" });
+        },
         pre: ({ node, children }) => (
           <CodeBlock
             source={String(node?.properties["data-source"] || "")}

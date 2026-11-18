@@ -6,6 +6,7 @@ export interface ArticleRecord {
   slug: string;
   title: string;
   description: string;
+  cover?: string;
   date: string;
   updated: string;
   tags: string[];

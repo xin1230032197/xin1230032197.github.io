@@ -1,0 +1,37 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
+import sharp from "sharp";
+import { buildArticleImages } from "../build/article-images.mjs";
+import { articleImage } from "../lib/article-image.ts";
+test("build emits lossless responsive screenshots with dimensions, keeps originals and deduplicates bytes", async t => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "codex-images-"));
+  t.after(async () => { assert.ok(root.startsWith(path.resolve(os.tmpdir()) + path.sep)); assert.ok(path.basename(root).startsWith("codex-images-")); await fs.rm(root, {recursive:true,force:true}); });
+  const folder = path.join(root, "public/images/articles/note");await fs.mkdir(folder,{recursive:true});
+  const bytes = await sharp({create:{width:2000,height:600,channels:4,background:{r:100,g:140,b:200,alpha:.5}}}).png().toBuffer();
+  const source = path.join(folder,"截图 图.png");await fs.writeFile(source,bytes);await fs.writeFile(path.join(folder,"same.png"),bytes);
+  const result = await buildArticleImages(root), url="/images/articles/note/截图%20图.png";
+  const image=articleImage(result.index,url);
+  assert.equal(image.width,2000);assert.equal(image.height,600);
+  assert.match(image.srcSet,/640w.*1280w.*1920w.*2000w/);
+  assert.equal(result.assets.size,4);assert.deepEqual(await fs.readFile(source),bytes);
+  const full=result.assets.get(image.src.slice(1));
+  if(full)assert.deepEqual(await sharp(full).raw().toBuffer(),await sharp(bytes).raw().toBuffer());
+  const small=[...result.assets].find(([name])=>name.endsWith("-640.webp"));
+  assert.equal((await sharp(small[1]).metadata()).width,640);
+  assert.equal(articleImage(result.index,url+"#detail").src,image.src+"#detail");
+  assert.equal(articleImage(result.index,"https://example.com/image.png"),undefined);
+  assert.equal(articleImage(result.index,"/images/articles/new-unsaved.png"),undefined);
+  assert.equal(articleImage(result.index,"/images/articles/bad%escape.png"),undefined);
+});
+test("EXIF-oriented images keep their source orientation, and empty libraries build without assets", async t=>{
+  const root=await fs.mkdtemp(path.join(os.tmpdir(),"codex-images-"));
+  t.after(async()=>{assert.ok(root.startsWith(path.resolve(os.tmpdir())+path.sep));assert.ok(path.basename(root).startsWith('codex-images-'));await fs.rm(root,{recursive:true,force:true})});
+  assert.deepEqual((await buildArticleImages(root)).index,{});
+  const folder=path.join(root,'public/images/articles/photo');await fs.mkdir(folder,{recursive:true});
+  await sharp({create:{width:80,height:40,channels:3,background:'red'}}).jpeg().withMetadata({orientation:6}).toFile(path.join(folder,'portrait.jpg'));
+  const result=await buildArticleImages(root),image=result.index['/images/articles/photo/portrait.jpg'];
+  assert.equal(image.src,'/images/articles/photo/portrait.jpg');assert.equal(image.width,40);assert.equal(image.height,80);assert.equal(result.assets.size,0);
+});
