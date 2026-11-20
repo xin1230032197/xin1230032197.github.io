@@ -44,6 +44,12 @@
         "slug": "di-yi-zhang-xu-lun",
         "title": "第一章 绪论",
         "order": 10
+      },
+      {
+        "id": "di-er-zhang-jin-cheng-yu-xian-cheng",
+        "slug": "di-er-zhang-jin-cheng-yu-xian-cheng",
+        "title": "第二章 进程与线程",
+        "order": 20
       }
     ]
   },
